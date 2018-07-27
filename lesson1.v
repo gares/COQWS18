@@ -5,33 +5,6 @@ Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 (** 
 
-
-----------------------------------------------------------
-#<div class="slide">#
-** title
-
-body
-
-- item [verbatim code]
-- item
-
-#<div>#
-*)
-Check nat.
-(**
-#</div>#
-
-#<div class="note">(notes)<div class="note-text">#
-footnote
-#<a href="https://example">a link</a>#
-end footnote
-#</div></div>#
-
-#</div>#
-*)
-
-(**
-
 ----------------------------------------------------------
 #<div class="slide">#
 ** The Coq proof assistant and the Mathematical Components library
@@ -43,7 +16,7 @@ end footnote
 - #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson2.html">lesson 2</a>#:
     Proofs
 - #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson3.html">lesson 3</a>#:
-    More proofs
+    Proofs and views
 - #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson4.html">lesson 4</a>#:
     Libraries
 
@@ -450,8 +423,6 @@ sections 1.4 and 1.5 of
 ----------------------------------------------------------
 #<div class="slide">#
 ** Higher order functions and mathematical notations
-
-#</div>#
 
 #$$ \sum_{i=1}^n (i * 2 - 1) = n ^ 2 $$#
 

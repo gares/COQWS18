@@ -4,7 +4,7 @@ WEB=/media/sophia/www-sop/teams/marelle/types18/
 
 VS=$(filter-out %tmp.v,$(filter-out %-todo.v,$(wildcard *.v)))
 EX=$(filter-out %tmp.v,$(filter-out %-todo.v,$(wildcard exercise*.v)))
-FILES=$(VS:%.v=%.html) $(VS) $(EX:%.v=%-todo.v)
+FILES=$(VS:%.v=%.html) $(VS) $(EX:%.v=%-todo.v) $(EX:%.v=%-solution.html)
 
 all: jscoq udoc/udoc.byte cheat-sheet/cheatsheet.pdf $(FILES)
 
@@ -69,6 +69,8 @@ lesson4.html: lesson4.html.tmp
 # Exercises
 exercise%.html: exercise%.html.tmp
 	@sed -e '/^(\*D\*).*$$/d' -e 's/^(\*A\*).*$$/Admitted./' -e 's/^(\*a\*).*$$/  admit./'  $< > $@
+exercise%-solution.html: exercise%.html.tmp
+	@cp $< $@
 exercise%-todo.v: exercise%.v
 	@sed -e '/^(\*D\*).*$$/d' -e 's/^(\*A\*).*$$/Admitted./' -e 's/^(\*a\*).*$$/  admit./'  $< > $@
 
