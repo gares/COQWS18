@@ -1,0 +1,10 @@
+*.vo
+*.html
+*.glob
+.*.aux
+*tmp.v
+*-todo.v
+jscoq
+udoc
+*.un~
+*.swp
