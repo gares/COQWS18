@@ -62,9 +62,6 @@ validate: $(VS) $(EX) test.v
 # Lessons
 lesson%.html: lesson%.html.tmp
 	@mv $< $@
-lesson4.html: lesson4.html.tmp
-	@mv $< $@
-	sed -i "s/init_pkgs:.*/init_pkgs: ['init','math-comp'],/" $@
 	
 # Exercises
 exercise%.html: exercise%.html.tmp
@@ -72,8 +69,4 @@ exercise%.html: exercise%.html.tmp
 exercise%-solution.html: exercise%.html.tmp
 	@cp $< $@
 exercise%-todo.v: exercise%.v
-	@sed -e '/^(\*D\*).*$$/d' -e 's/^(\*A\*).*$$/Admitted./' -e 's/^(\*a\*).*$$/  admit./'  $< > $@
-
-exercise4.html: exercise4.html.tmp
-	sed -i "s/init_pkgs:.*/init_pkgs: ['init','math-comp'],/" $@
 	@sed -e '/^(\*D\*).*$$/d' -e 's/^(\*A\*).*$$/Admitted./' -e 's/^(\*a\*).*$$/  admit./'  $< > $@

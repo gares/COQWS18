@@ -9,19 +9,12 @@ Unset Printing Implicit Defensive.
 
 ----------------------------------------------------------
 #<div class="slide">#
-** 
+** Propositions and booleans
 
-Roadmap:
-- recall CH 3.x
-- reflect 4.1.1 + iffP 4.1.2
-- view application 4.1.3 4.1.4
-- speck (leqP, ifP) 4.2
-
-#<div>#
-
-----------------------------------------------------------
-#<div class="slide">#
-** Curry Howard, propositions and booleans
+So far we used boolean connectives.
+But this is not what is used in the Curry Howard
+correspondence to represent connectives and their
+proofs.
 
 #<div>#
 *)
@@ -31,54 +24,44 @@ Print and.
 Print orb.
 Print or.
 
-Check [forall x : 'I_4, 0 <= x].
-Check forall x : nat, 0 <= x.
-
 Check true ==> false.
 Check True -> False.
 
-Lemma test_and (P Q: bool) :
-  P /\ Q -> P.
+(**
+#</div>#
+
+Let's play a little with [and] and [andb]
+
+#<div>#
+*)
+
+
+Lemma test_and (P : bool) :
+  True /\ P -> P. (* true && P -> P. *)
 Proof.
-move=> pAq.
-case: pAq => p q.
+move=> t_p.
+case: t_p => t p.
 apply: p.
 Qed.
 
-Lemma test_or (P Q R: bool) :
-  P || Q -> R.
+Lemma test_orb (P Q R : bool) :
+  P \/ Q -> R. (* P || Q -> R *)
 Proof.
-move=> pOq.
+move=> p_q.
+case: p_q.
 Abort.
+
 
 (**
 #</div>#
 
 Propositions:
-- structure to your proof (a tree)
-- more expressive logic (forall, exists)
-
-# $$ \frac{P \vdash R \quad Q \vdash R}{P \lor Q \vdash R} $$ #
+- structure to your proof as a tree
+- more expressive logic (close under forall, exists...)
 
 Booleans:
 - computation & Excluded Middle
-- Uniqueness of Identity Proofs
-
-A taste of UIP (more in lesson 4):
-
-#<div>#
-*)
-About bool_irrelevance.
-Lemma odd3 : odd 3. Proof. by []. Qed.
-Lemma odd21 : odd (2+1). Proof. by []. Qed.
-Lemma uip_test : (3, odd3) = (2+1, odd21).
-Proof. rewrite (bool_irrelevance odd3 odd21). by []. Qed.
-(**
-#</div>#
-
-Side note: bool_irrelevance is a lemma, by CH also a
-program, and I'm passing two arguments to it.
-
+- Uniqueness of Identity Proofs (lesson 4)
 
 We want the best of the two worlds, and a way to
 link them: views.
@@ -97,9 +80,14 @@ section 3.x of
 #<div class="slide">#
 ** Stating and proving a view
 
+To link a concept in bool and one in Prop we typically
+use the [reflect] predicate.
+
+To prove [reflect] we use the [iffP] lemma that
+turns it into a double implication.
+
 #<div>#
 *)
-
 
 About iffP.
 
@@ -107,13 +95,16 @@ Lemma eqnP {n m : nat} :
   reflect (n = m) (eqn n m).
 Proof.
 apply: (iffP idP).
-  by elim: n m => [|n IH] m; case: m => // m Hm; rewrite (IH m).
-by move=> def_n; rewrite {}def_n; elim: m.
+  elim: n m => [|n IH] m; case: m => // m Hm.
+  by rewrite (IH m).
+move=> def_n; rewrite {}def_n.
+Undo.
+move=> ->. (* move + rewrie + clear idiom *)
+by elim: m.
 Qed.
 
 (**
 #</div>#
-
 
 #<div class="note">(notes)<div class="note-text">#
 This slide corresponds to
@@ -129,6 +120,9 @@ sections 4.1.1 and 4.1.2 of
 #<div class="slide">#
 ** Using views
 
+The syntax [/view] can be put in intro patterns
+to modify the top assumption using [view]
+
 #<div>#
 *)
 About andP.
@@ -138,12 +132,34 @@ Lemma example n m k : k <= n ->
 Proof.
 move=> lekn /andP H; case: H => lenm lemk.
 Undo.
-move=> lekn /andP[lenm lemk].
+move=> lekn /andP[lenm lemk]. (* view + case idiom *)
 Abort.
 
-Lemma leq_total m n : (m <= n) || (m >= n).
-Proof. by rewrite -implyNb -ltnNge; apply/implyP; apply: ltnW. Qed.
+(**
+#</div>#
 
+The [apply:] tactic accepts a [/view] flag
+to modify the goal using [view].
+
+#<div>#
+*)
+
+Lemma leq_total m n : (m <= n) || (m >= n).
+Proof.
+rewrite -implyNb -ltnNge.
+apply/implyP.
+apply: ltnW.
+Qed.
+
+(**
+#</div>#
+
+The [case:] tactic accepts a [\view] flag
+to modify the term being analyzed just before
+performing the case analysis.
+
+#<div>#
+*)
 
 Lemma leq_max m n1 n2 :
   (m <= maxn n1 n2) = (m <= n1) || (m <= n2).
@@ -153,7 +169,6 @@ Abort.
 
 (**
 #</div>#
-
 
 #<div class="note">(notes)<div class="note-text">#
 This slide corresponds to
@@ -169,21 +184,45 @@ sections 4.1.3 and 4.1.4 of
 #<div class="slide">#
 ** The reflect predicate and other specs
 
+The [reflect] inductive predicate has an index.
+
+Indexes are replaced by the value dictated by the
+constructor when prforming a casa analysis. In a way
+indexes express equations that are substituted
+automatically.
+
+In Mathematical Components we exploit this feature
+of the logic to
+
+
 #<div>#
 *)
 Print Bool.reflect.
 About andP.
 
-Lemma example a b : a && b ==> (a == b).
-Proof. by case: andP => // [[-> ->]].  Qed.
+Lemma example_spec a b : a && b ==> (a == b).
+Proof.
+by case: andP => // [[-> ->]].
+Qed.
+
+About leqP.
+Print leq_xor_gtn.
+
+Lemma example_spec2 a b : (a <= b) || (b < a).
+Proof.
+by case: leqP.
+Qed.
 
 About ifP.
 
+Lemma example_spec3 a b :
+  (if (a <= 0) then a + b else b) == b.
+Proof.
+by case: ifP => //; rewrite leqn0 => /eqP ->.
+Qed.
+
 (**
 #</div>#
-
-
-
 
 
 #<div class="note">(notes)<div class="note-text">#
