@@ -208,7 +208,7 @@ Proof.
 rewrite /t1 /t2 /=.
 congr (Tuple _).
 Fail by [].
-About bool_irrelevance.
+(*About bool_irrelevance.*)
 apply: bool_irrelevance.
 Qed.
 
@@ -239,10 +239,8 @@ Abort.
 
 End Tup.
 
-
 (**
 #</div>#
-
 
 #<div class="note">(notes)<div class="note-text">#
 This slide corresponds to
@@ -251,4 +249,18 @@ section 5 of
 #</div></div>#
 
 #</div>#
+
+----------------------------------------------------------
+#<div class="slide">#
+** Sum up
+
+- [xxType] is an interface (eg [eqType] for types with an equality test).
+  Notations and theorems are linked to interfaces.
+
+- subtypes add properties and inherit the theory of the supertype.
+  In some cases the property can be inferred by Coq, letting one apply
+  a lemma about the subtype on terms of the supertype.
+
+#</div>#
+
 *)
