@@ -17,7 +17,8 @@ We don't do that in void, nor without a methodology.
 We work on top of the Mathematical Components library
 and we follow the Small Scale reflection approach.
 
-#<div>#
+#</div>#
+
 ----------------------------------------------------------
 #<div class="slide">#
 ** Formal statements
@@ -46,7 +47,7 @@ Check (3 <= 4) = true. (* a statement we can prove *)
 
 Motto: whenever possible predicates are expressed as a programs.
 
-This has a deep impact on the proofs we make in lesson 2 and 3 and
+This choice has a deep impact on the proofs we make in lesson 2 and 3 and
 the way we can form new types in lesson 3.
 
 More statements using equality and predicates in bool 
@@ -72,6 +73,8 @@ The last statement is valid thanks to the [is_true]
 Check is_true.
 (**
 #</div>#
+
+#$$~$$#
 
 #<div class="note">(notes)<div class="note-text">#
 This slide corresponds to
@@ -102,6 +105,15 @@ Proof. by []. Qed.
 
 Lemma ltnS m n : (m.+1 <= n.+1) = (m <= n).
 Proof. by []. Qed.
+(**
+#</div>#
+
+Notice [_ < _] is just a notation for [_.+1 <= _].
+
+Notice the naming convention.
+
+#<div>#
+*)
 
 Print negb.
 Locate "~~".
@@ -110,6 +122,15 @@ Lemma negbK (b : bool) : ~~ (~~ b) = b.
 Proof. Fail by []. Abort.
 (**
 #</div>#
+
+It is not always the case the computation solves all our
+problems. In particular here there are no constructors to
+consume, hence computation is stuck.
+
+To prove [negbK] we need a case split.
+
+#$$~$$#
+
 
 #<div class="note">(notes)<div class="note-text">#
 This slide corresponds to
@@ -143,7 +164,7 @@ Proof.
 by case: b1; case: b2.
 Qed.
 
-Lemma orbN b : b || ~~b.
+Lemma orbN b : b || ~~ b.
 Proof.
 by case: b.
 Qed.
@@ -196,6 +217,7 @@ But maybe someone proved it already...
 Search _ (_ * 0) in ssrnat. (*   :-(   *)
 Search _ muln 0 in ssrnat.
 Print right_zero.
+Search right_zero.
 (**
 #</div>#
 
@@ -253,7 +275,7 @@ Lemma leq_mul2l m n1 n2 :
   (m * n1 <= m * n2) = (m == 0) || (n1 <= n2).
 Proof.
 rewrite /leq.
-Search _ muln subn in ssrnat.
+(* Search _ muln subn in ssrnat. *)
 rewrite -mulnBr.
 rewrite muln_eq0.
 by [].
@@ -285,18 +307,26 @@ Lemma example m p : prime p ->
   p %| m `! + 1 -> m < p.
 Proof.
 move=> prime_p.
-Search "contra" in ssr.ssrbool.
+(* Search "contra". *)
 apply: contraLR.
 rewrite -leqNgt.
 move=> leq_p_m.
 rewrite dvdn_addr.
   by rewrite gtnNdvd // prime_gt1.
-Search _ dvdn factorial.
+(* Search _ dvdn factorial.*)
 apply: dvdn_fact.
 by rewrite leq_p_m prime_gt0.
 Qed.
 (**
 #</div>#
+
+Remark [dvdn_addr] is an [iff] used inside a context.
+
+Remark [//] in [rewrite] to solve simple goals.
+
+Remark [rewrite] acepts many rewrite rules.
+
+Remark [n <= m <= p] is [n <= m && m <= p].
 
 #<div class="note">(notes)<div class="note-text">#
 
@@ -349,5 +379,19 @@ section 2.3.4 of
 #</div></div>#
 
 #</div>#
+
+----------------------------------------------------------
+#<div class="slide">#
+** Lesson 1: sum up
+
+- [by []] trivial proofs (including computation)
+- [case: m] case split
+- [apply: t] backchain
+- [rewrite t1 t2 //] rewrite
+- [elim: n] induction
+- [move=> n] naming
+
+#</div>#
+
 
 *)
