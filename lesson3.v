@@ -57,7 +57,7 @@ Abort.
 
 Propositions:
 - structure to your proof as a tree
-- more expressive logic (close under forall, exists...)
+- more expressive logic (closed under forall, exists...)
 
 Booleans:
 - computation & Excluded Middle
@@ -65,6 +65,8 @@ Booleans:
 
 We want the best of the two worlds, and a way to
 link them: views.
+
+#$$~$$#
 
 #<div class="note">(notes)<div class="note-text">#
 
@@ -84,7 +86,9 @@ To link a concept in bool and one in Prop we typically
 use the [reflect] predicate.
 
 To prove [reflect] we use the [iffP] lemma that
-turns it into a double implication.
+turns it into a double implication. This is also a
+recap of many of the proof commands we have seen
+so far.
 
 #<div>#
 *)
@@ -96,7 +100,7 @@ Lemma eqnP {n m : nat} :
 Proof.
 apply: (iffP idP).
   elim: n m => [|n IH] m; case: m => // m Hm.
-  by rewrite (IH m).
+  by rewrite (IH m Hm).
 move=> def_n; rewrite {}def_n.
 Undo.
 move=> ->. (* move + rewrie + clear idiom *)
@@ -146,9 +150,11 @@ to modify the goal using [view].
 
 Lemma leq_total m n : (m <= n) || (m >= n).
 Proof.
+(* About implyNb.*)
 rewrite -implyNb -ltnNge.
 apply/implyP.
-apply: ltnW.
+(* About ltnW *)
+by apply: ltnW.
 Qed.
 
 (**
@@ -169,6 +175,8 @@ Abort.
 
 (**
 #</div>#
+
+#$$~$$#
 
 #<div class="note">(notes)<div class="note-text">#
 This slide corresponds to
@@ -192,7 +200,8 @@ indexes express equations that are substituted
 automatically.
 
 In Mathematical Components we exploit this feature
-of the logic to
+of the logic in order to structure proofs that proceed
+by case split.
 
 
 #<div>#
@@ -210,7 +219,7 @@ Print leq_xor_gtn.
 
 Lemma example_spec2 a b : (a <= b) || (b < a).
 Proof.
-by case: leqP.
+by case: (leqP a b).
 Qed.
 
 About ifP.
@@ -224,6 +233,8 @@ Qed.
 (**
 #</div>#
 
+#$$~$$#
+
 
 #<div class="note">(notes)<div class="note-text">#
 This slide corresponds to
@@ -233,6 +244,19 @@ section 4.2 of
 
 
 #</div>#
+
+----------------------------------------------------------
+#<div class="slide">#
+** Lesson 3: sum up
+
+- [reflect] and [iffP]
+- [case/v: m] case split + view application
+- [move=> /v H] introduction + view
+- [apply/v: t] backchain with a view
+- [_spec] predicates to model case split [leqP] and [ifP]
+
+#</div>#
+
 
 
 *)
