@@ -4,7 +4,7 @@ Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
 (** *** Exercise :
-    - Define the option data type with constructors None and Some
+    - Define the option container with constructors None and Some
     - Define the "projection" default
 *)
 Inductive option

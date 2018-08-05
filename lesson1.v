@@ -9,16 +9,21 @@ Unset Printing Implicit Defensive.
 #<div class="slide">#
 ** The Coq proof assistant and the Mathematical Components library
 
+Objective: learn the Coq system in the MC library
+
 *** Roadmap
 
-- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson1.html">lesson 1</a>#:
-    Programs
-- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson2.html">lesson 2</a>#:
-    Proofs
-- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson3.html">lesson 3</a>#:
-    Proofs and views
-- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson4.html">lesson 4</a>#:
-    Libraries
+- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson1.html">lesson 1</a>#: Programs
+  - #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise1.html">exercise</a># and #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise1-solution.html">solution</a>#
+
+- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson2.html">lesson 2</a>#: Proofs
+  - #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise2.html">exercise</a># and #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise2-solution.html">solution</a>#
+
+- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson3.html">lesson 3</a>#: Boolean reflection
+  - #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise3.html">exercise</a># and #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise3-solution.html">solution</a>#
+
+- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson4.html">lesson 4</a>#: Libraries
+  - #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise4.html">exercise</a># and #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise4-solution.html">solution</a>#
 
 *** Teaching material
 
@@ -30,11 +35,25 @@ Unset Printing Implicit Defensive.
   (#<a href="http://math-comp.github.io/math-comp/">software</a># and
   #<a href="https://math-comp.github.io/mcb/">book</a>#)
 
+
+
 #<div class="note">(notes)<div class="note-text">#
 You don't need to install Coq in order to follow this
 class, you just need a recent browser thanks to
 #<a href="https://github.com/ejgallego/jscoq">jsCoq</a>#.
 #</div></div>#
+
+#</div>#
+
+----------------------------------------------------------
+#<div class="slide">#
+** Lesson 1: summary
+
+- functions
+- simple data
+- containers
+- symbolic computations
+- higher order functions and mathematical notations
 
 #</div>#
 
@@ -47,7 +66,7 @@ The command [Check] verifies that a term is well typed.
 
 #<div>#
 *)
-Check (fun n => n + 1).
+Check (fun n => 1 + n + 1).
 (**
 #</div>#
 
@@ -61,7 +80,7 @@ practice).
 
 #<div>#
 *)
-Check (fun n => n + 1) 2.
+Check (fun n => 1 + n + 1) 2.
 (**
 #</div>#
 
@@ -71,7 +90,9 @@ syntactic sugar for binding the function arguments.
 
 #<div>#
 *)
-Definition f := (fun n => n + 1).
+Definition f := (fun n => 1 + n + 1).
+(* Definition f n := 1 + n + 1. *)
+(* Definition f (n : nat) := 1 + n + 1. *)
 (**
 #</div>#
 
@@ -107,6 +128,7 @@ Eval lazy delta [f] beta in f 2.
 Nothing but functions (and their types) are built-in in Coq.
 All the rest is defined, even [1], [2] and [+] are not primitive.
 
+#$$~$$#
 
 #<div class="note">(notes)<div class="note-text">#
 
@@ -172,6 +194,7 @@ prelude of Coq, here we just associate the constants
 [andb] and [orb] to these notataions.
 
 Natural numbers are defined similarly to booleans:
+
 [Inductive nat := O | S (n : nat).]
 
 #<div>#
@@ -204,16 +227,17 @@ command to define recusrsive functions.
 *)
 Definition pred (n : nat) :=
   if n is p.+1 then p else 0.
+
 Eval lazy in pred 7.
 (**
 #</div>#
 
-Notice that [m] is a binder. When the [if..then..else..]
+Notice that [p] is a binder. When the [if..then..else..]
 is evaluated, and [n] put in normal form, then if it
-is [S t] the variable [m] takes [t] and the then-branch
+is [S t] the variable [p] takes [t] and the then-branch
 is taken.
 
-Now lets define addition
+Now lets define addition using recursion
 
 #<div>#
 *)
@@ -261,6 +285,7 @@ Fixpoint subn m n : nat :=
 Infix "-" := subn.
 
 Eval lazy in 3 - 2.
+Eval lazy in 2 - 3. (* truncated *)
 
 Definition leq m n := m - n == 0.
 
@@ -269,6 +294,8 @@ Infix "<=" := leq.
 Eval lazy in 4 <= 5.
 (**
 #</div>#
+
+#$$~$$#
 
 #<div class="note">(notes)<div class="note-text">#
 
@@ -302,7 +329,6 @@ to hold terms of many types.
 *)
 Check nil.
 Check cons 3 [::].
-About cons.
 (**
 #</div>#
 
@@ -364,6 +390,7 @@ The #<a href="http://math-comp.github.io/math-comp/htmldoc/mathcomp.ssreflect.se
 library of Mathematical Components contains many combinators. Their syntax
 is documented in the header of the file.
 
+#$$~$$#
 
 #<div class="note">(notes)<div class="note-text">#
 
@@ -391,19 +418,45 @@ Section symbols.
 Variables x : nat.
 
 Eval lazy in pred (1 + x).
+Eval lazy in pred x.
 (**
 #</div>#
 
+Computation can take place in presence of variables
+as long as constructors can be consumed. When no
+more constructors are available computation is
+stuck.
+
+Let's not look at a very common higher order
+function.
 
 #<div>#
 *)
 
 Fixpoint foldr A T f (a : A) (s : seq T) :=
   if s is x :: xs then f x (foldr f a xs) else a.
+(**
+#</div>#
+
+The best way to understand what [foldr] does 
+is to postulate a virable [f] and compute. 
+
+#<div>#
+*)
 
 Variable f : nat -> nat -> nat.
 
 Eval lazy in foldr f    3 [:: 1; 2 ].
+
+(**
+#</div>#
+
+If we plug [addn] in place of [f] we
+obtain a term that evaluates to a number.
+
+#<div>#
+*)
+
 Eval lazy in foldr addn 3 [:: 1; 2 ].
 
 End symbols.
@@ -424,13 +477,26 @@ sections 1.4 and 1.5 of
 #<div class="slide">#
 ** Higher order functions and mathematical notations
 
+Let's try to write this formula in Coq
+
 #$$ \sum_{i=1}^n (i * 2 - 1) = n ^ 2 $$#
+
+We need a bit of infrastruture
 
 #<div>#
 *)
 Fixpoint iota m n := if n is u.+1 then m :: iota m.+1 u else [::].
 
 Eval lazy in iota 0 5.
+
+(**
+#</div>#
+
+Combining [iota] and [foldr] we can get pretty
+close to the LaTeX source for the formula above.
+
+#<div>#
+*)
 
 Notation "\sum_ ( m <= i < n ) F" :=
   (foldr (fun i a => F + a) 0 (iota m (n-m))).
@@ -440,6 +506,7 @@ Eval lazy in \sum_(1 <= x < 5) (x * 2 - 1).
 (**
 #</div>#
 
+#$$~$$#
 
 #<div class="note">(notes)<div class="note-text">#
 
@@ -449,5 +516,22 @@ section 1.6 of
 #</div></div>#
 
 #</div>#
+
+----------------------------------------------------------
+#<div class="slide">#
+** Lesson 1: sum up
+
+- [fun .. => ..]
+- [Check]
+- [Definition]
+- [Print]
+- [Eval lazy]
+- [Indcutive] declarations [bool], [nat], [seq].
+- [match .. with .. end] and [if .. is .. then .. else ..]
+- [Fixpoint]
+- [andb] [orb] [eqn] [leq] [addn] [subn] [size] [foldr]
+
+#</div>#
+
 
 *)
