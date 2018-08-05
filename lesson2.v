@@ -382,7 +382,7 @@ section 2.3.4 of
 
 ----------------------------------------------------------
 #<div class="slide">#
-** Lesson 1: sum up
+** Lesson 2: sum up
 
 - [by []] trivial proofs (including computation)
 - [case: m] case split
