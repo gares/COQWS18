@@ -13,7 +13,7 @@ Proof.
 (*D*)elim: n => [|n IHn]; first by rewrite unlock.
 (*D*)rewrite doubleS big_mkcond 2?big_nat_recr // -big_mkcond /=.
 (*D*)rewrite {}IHn odd_double /= addn0 -addnn -!mulnn.
-by ring. (* when the goal is just about n, +, 1 and * one can use the automatic tactic *)
+(*D*)by rewrite mulSn mulnC mulSn addnA addSn addnC.
 Qed.
 
 
