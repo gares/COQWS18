@@ -9,6 +9,18 @@ Unset Printing Implicit Defensive.
 
 ----------------------------------------------------------
 #<div class="slide">#
+** Lesson 3: summary
+
+- bool vs Prop
+- views as iff
+- using views
+- reflect and other inductive "spec"
+
+#</div>#
+
+
+----------------------------------------------------------
+#<div class="slide">#
 ** Propositions and booleans
 
 So far we used boolean connectives.
@@ -30,7 +42,8 @@ Check True -> False.
 (**
 #</div>#
 
-Let's play a little with [and] and [andb]
+Let's play a little with [and] and [andb], [or] and [orb]
+in order to understand the difference.
 
 #<div>#
 *)
@@ -214,20 +227,57 @@ Proof.
 by case: andP => // [[-> ->]].
 Qed.
 
+(**
+#</div>#
+
+Note that [(andP _ _)] has in the type, as the value of
+the index, [(_ && _)] that we call "a pattern". The [case:]
+tactic looks for a subterm of the goal that matches the
+pattern and "guesses" that the two [_] are respectively
+[a] and [b]. This form of automation is the same of [rewrite].
+
+One can craft many "spec" to model the structure of a
+proof. Eg [leqP] and [ltngtP]
+
+#<div>#
+*)
+
 About leqP.
 Print leq_xor_gtn.
 
 Lemma example_spec2 a b : (a <= b) || (b < a).
 Proof.
-by case: (leqP a b).
-Qed.
+case: leqP.
+Abort.
+
+About ltngtP.
+Print compare_nat.
+
+Lemma example_spec3 a b : (a <= b) || (b < a) || (b == a).
+Proof.
+case: ltngtP.
+Abort.
+
+(**
+#</div>#
+
+Note that [(andP _ _)] has in the type, as the value of
+the index, [(_ && _)] that we call "a pattern". The [case:]
+tactic looks for a subterm of the goal that matches the
+pattern and "guesses" that the two [_] are respectively
+[a] and [b]. This form of automation is the same of [rewrite].
+
+#<div>#
+*)
 
 About ifP.
 
 Lemma example_spec3 a b :
   (if (a <= 0) then a + b else b) == b.
 Proof.
-by case: ifP => //; rewrite leqn0 => /eqP ->.
+case: ifP => //.
+rewrite leqn0 => /eqP ->.
+by [].
 Qed.
 
 (**
@@ -254,9 +304,10 @@ section 4.2 of
 - [move=> /v H] introduction + view
 - [apply/v: t] backchain with a view
 - [_spec] predicates to model case split [leqP] and [ifP]
+- [move=> []] (for case)
+- [move=> ->] (for rewrite)
+- [... => ...] the arrow can be used after any command
 
 #</div>#
-
-
 
 *)

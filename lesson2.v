@@ -9,13 +9,41 @@ Unset Printing Implicit Defensive.
 
 ----------------------------------------------------------
 #<div class="slide">#
-** Proofs (in a library)
+** Lesson 2: summary
+
+- statements
+- proofs by computation
+- proofs by case split
+- proofs by rewriting
+- proofs by backchaining
+- proofs by induction
+
+#</div>#
+
+----------------------------------------------------------
+#<div class="slide">#
+** Formal proofs 
 
 Today we learn how to state and prove theorems.
-We don't do that in void, nor without a methodology.
+We don't do that in the void, nor without a methodology.
 
 We work on top of the Mathematical Components library
-and we follow the Small Scale reflection approach.
+and we follow the Small Scale Reflection approach using
+the SSReflect proof language.
+
+The Mathematical Components library can be
+#<a href="http://math-comp.github.io/math-comp/">browsed online</a>#.
+The modules of interest are
+#<a href="https://github.com/math-comp/math-comp/blob/master/mathcomp/ssreflect/ssrnat.v">ssrnat</a>#
+ and 
+#<a href="https://github.com/coq/coq/blob/master/plugins/ssr/ssrbool.v">ssrbool</a>#
+ (see the headers for the doc).
+
+The SSReflect proof language
+(#<a href="https://coq.inria.fr/distrib/current/refman/proof-engine/ssreflect-proof-language.html">reference manual</a>#)
+is covered in full details by the Mathematical Components book.
+Here we just cover the basics.
+
 
 #</div>#
 
