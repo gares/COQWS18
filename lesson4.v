@@ -331,6 +331,7 @@ Canonical tuple_eqType n (T : eqType) := Eval hnf in EqType (n.-tuple T) (tuple_
 Check [eqType of 3.-tuple nat].
 
 Example test_eqtype (x y : 3.-tuple nat) : x == y -> True.
+Proof.
 move=> /eqP H.
 Abort.
 
