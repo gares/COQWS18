@@ -9,6 +9,19 @@ Unset Printing Implicit Defensive.
 
 ----------------------------------------------------------
 #<div class="slide">#
+** Lesson 4: summary
+
+- generic notations and theories
+- interfaces and hierarchies
+- parametrizing theories
+- the BigOp library (the theories of fold)
+- subtypes
+
+#</div>#
+
+
+----------------------------------------------------------
+#<div class="slide">#
 ** Generic notations and theories
 
 Example: the [==] compatable equality
@@ -35,13 +48,43 @@ Fail Check [eqType of seq (nat -> nat)].
 (**
 #</div>#
 
+We call [eqType] an interface. With some "approximation"
+[eqType] is defined as follows:
+
+<<
+
+Module Equality.
+
+Structure type : Type := Pack {
+  sort : Type;
+  op : sort -> sort -> bool;
+  axiom : ∀x y, reflect (x = y) (op x y)
+}.
+
+
+End Equality
+>>
+
+#<div class="note">(notes)<div class="note-text">#
+This slide corresponds to
+section 5.4 of
+#<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
+#</div></div>#
+
+#</div>#
+
+
+----------------------------------------------------------
+#<div class="slide">#
+** Interfaces and hierarchies
+
 Mathematical Components defines a hierarchy
-of interfaces. The group notations and
+of interfaces. They group notations and
 theorems.
 
 # <img style="width: 100%" src="demo-support-master.svg"/>#
 
-
+Let's use the theory of [eqType]
 
 #<div>#
 *)
@@ -58,6 +101,23 @@ Qed.
 (**
 #</div>#
 
+Interfaces do apply to registered, concrete examples
+such as [bool] or [nat]. They can also apply to variables,
+as long as their type is "rich" ([eqType] is richer than [Type]).
+
+#<div class="note">(notes)<div class="note-text">#
+This slide corresponds to
+section 5.5 and 7 of
+#<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
+#</div></div>#
+
+#</div>#
+
+
+----------------------------------------------------------
+#<div class="slide">#
+** Theories over an interface
+
 Interfaces can be used to parametrize an
 entire theory
 
@@ -71,6 +131,9 @@ Fixpoint mem_seq s x :=
   if s is y :: s1
   then (y == x) || mem_seq s1 x
   else false.
+
+(* the infix \in and \notin are generic, not
+   just for sequences. *)
 
 Fixpoint uniq s :=
   if s is x :: s1
@@ -97,9 +160,22 @@ Qed.
 (**
 #</div>#
 
+#<div class="note">(notes)<div class="note-text">#
+This slide corresponds to
+section 5.6 of
+#<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
+#</div></div>#
+
+#</div>#
+
+----------------------------------------------------------
+#<div class="slide">#
+** Generic theories: the BigOp library
+
 The BigOp library is the canonical example
-of a generic theory. It it just about the
-[fold] iterator we studies in lesson 1.
+of a generic theory. It it about the
+[fold] iterator we studies in lesson 1,
+and the many uses it can have.
 
 #<div>#
 *)
@@ -128,9 +204,23 @@ Abort.
 (**
 #</div>#
 
+Most of the lemmas require the operation to be a monoid,
+some others to be a commutative monoid.
+
+#<div>#
+*)
+
+About eq_big_perm.
+
+(**
+#</div>#
+
+Most of the lemmas require the operation to be a monoid,
+some others to be a commutative monoid.
+
 #<div class="note">(notes)<div class="note-text">#
 This slide corresponds to
-section 4.2 of
+section 5.7 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
@@ -141,7 +231,7 @@ section 4.2 of
 #<div class="slide">#
 ** Sub types
 
-A sub type extends another one adding a property.
+A sub type extends another type by adding a property.
 The new type has a richer theory.
 The new type inherits the original theory.
 
@@ -163,7 +253,13 @@ Proof. by case: t => s /= /eqP. Qed.
 
 Example seq_on_tuple n (t : n.-tuple nat) :
   size (rev [seq 2 * x | x <- rev t]) = size t.
-Proof. by rewrite map_rev revK size_map. Qed.
+Proof. 
+by rewrite map_rev revK size_map.
+Undo.
+rewrite size_tuple.
+Fail rewrite size_tuple.
+Abort.
+
 
 (**
 #</div>#
@@ -205,7 +301,8 @@ Let t2 := {| tval := [::1] ++ [::2]; tsize := p2 |}.
 
 Lemma tuple_uip : t1 = t2.
 Proof.
-rewrite /t1 /t2 /=.
+rewrite /t1 /t2. rewrite /=.
+Fail by [].
 congr (Tuple _).
 Fail by [].
 (*About bool_irrelevance.*)
@@ -244,7 +341,7 @@ End Tup.
 
 #<div class="note">(notes)<div class="note-text">#
 This slide corresponds to
-section 5 of
+section 6.1 and 6.2 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
@@ -256,10 +353,14 @@ section 5 of
 
 - [xxType] is an interface (eg [eqType] for types with an equality test).
   Notations and theorems are linked to interfaces.
+  Interfaces are organized in hierarchies (we just saw a picture,
+  how it works can be found in the book).
 
-- subtypes add properties and inherit the theory of the supertype.
+- subtypes add properties and inherit the theory of the supertype
+  thanks to boolean predicates (UIP).
   In some cases the property can be inferred by Coq, letting one apply
   a lemma about the subtype on terms of the supertype.
+
 
 #</div>#
 
