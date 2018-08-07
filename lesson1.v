@@ -80,9 +80,13 @@ practice).
 
 #<div>#
 *)
+Check 2.
 Check (fun n => 1 + n + 1) 2.
 (**
 #</div>#
+
+Notice how [2] has a type that fits, and hence
+the type of the function applied to [2] is [nat].
 
 Terms (hence functions) can be given a name using
 the [Definition] command. The command offers some
@@ -116,7 +120,8 @@ Eval lazy in f 2.
 
 Notice that "computation" is made of many steps.
 In particular [f] has to be unfolded (delta step)
-and then the beta.
+and then the variable substituted for the argument
+(beta).
 
 #<div>#
 *)
