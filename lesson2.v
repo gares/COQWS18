@@ -18,7 +18,7 @@ Unset Printing Implicit Defensive.
 - proofs by backchaining
 - proofs by induction
 
-#$$~$$#
+#<p><br/><p>#
 
 #</div>#
 
@@ -47,7 +47,7 @@ is covered in full details by the Mathematical Components book.
 Here we just cover the basics.
 
 
-#$$~$$#
+#<p><br/><p>#
 #</div>#
 
 ----------------------------------------------------------
@@ -107,7 +107,7 @@ Check is_true.
 (**
 #</div>#
 
-#$$~$$#
+#<p><br/><p>#
 
 #<div class="note">(notes)<div class="note-text">#
 This slide corresponds to
@@ -115,7 +115,7 @@ section 2.1 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
-#$$~$$#
+#<p><br/><p>#
 #</div>#
 ----------------------------------------------------------
 #<div class="slide">#
@@ -163,7 +163,7 @@ consume, hence computation is stuck.
 
 To prove [negbK] we need a case split.
 
-#$$~$$#
+#<p><br/><p>#
 
 
 #<div class="note">(notes)<div class="note-text">#
@@ -172,7 +172,7 @@ section 2.2.1 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
-#$$~$$#
+#<p><br/><p>#
 #</div>#
 
 
@@ -278,7 +278,7 @@ sections 2.2.2 and 2.5 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
-#$$~$$#
+#<p><br/><p>#
 #</div>#
 
 ----------------------------------------------------------
@@ -326,7 +326,7 @@ section 2.2.3 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
-#$$~$$#
+#<p><br/><p>#
 #</div>#
 
 ----------------------------------------------------------
@@ -372,7 +372,7 @@ section 2.3.3 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
-#$$~$$#
+#<p><br/><p>#
 #</div>#
 
 ----------------------------------------------------------
@@ -416,7 +416,7 @@ section 2.3.4 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
-#$$~$$#
+#<p><br/><p>#
 #</div>#
 
 ----------------------------------------------------------

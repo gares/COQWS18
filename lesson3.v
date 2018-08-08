@@ -79,7 +79,7 @@ Booleans:
 We want the best of the two worlds, and a way to
 link them: views.
 
-#$$~$$#
+#<p><br/><p>#
 
 #<div class="note">(notes)<div class="note-text">#
 
@@ -189,7 +189,7 @@ Abort.
 (**
 #</div>#
 
-#$$~$$#
+#<p><br/><p>#
 
 #<div class="note">(notes)<div class="note-text">#
 This slide corresponds to
@@ -283,7 +283,7 @@ Qed.
 (**
 #</div>#
 
-#$$~$$#
+#<p><br/><p>#
 
 
 #<div class="note">(notes)<div class="note-text">#

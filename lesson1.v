@@ -133,7 +133,7 @@ Eval lazy delta [f] beta in f 2.
 Nothing but functions (and their types) are built-in in Coq.
 All the rest is defined, even [1], [2] and [+] are not primitive.
 
-#$$~$$#
+#<p><br/><p>#
 
 #<div class="note">(notes)<div class="note-text">#
 
@@ -302,7 +302,7 @@ Eval lazy in 4 <= 5.
 (**
 #</div>#
 
-#$$~$$#
+#<p><br/><p>#
 
 #<div class="note">(notes)<div class="note-text">#
 
@@ -397,7 +397,7 @@ The #<a href="http://math-comp.github.io/math-comp/htmldoc/mathcomp.ssreflect.se
 library of Mathematical Components contains many combinators. Their syntax
 is documented in the header of the file.
 
-#$$~$$#
+#<p><br/><p>#
 
 #<div class="note">(notes)<div class="note-text">#
 
@@ -513,7 +513,7 @@ Eval lazy in \sum_(1 <= x < 5) (x * 2 - 1).
 (**
 #</div>#
 
-#$$~$$#
+#<p><br/><p>#
 
 #<div class="note">(notes)<div class="note-text">#
 
