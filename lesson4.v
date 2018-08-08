@@ -70,7 +70,7 @@ This slide corresponds to
 section 5.4 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
-
+#$$~$$#
 #</div>#
 
 
@@ -111,6 +111,7 @@ section 5.5 and 7 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
+#$$~$$#
 #</div>#
 
 
@@ -166,6 +167,7 @@ section 5.6 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
+#$$~$$#
 #</div>#
 
 ----------------------------------------------------------
@@ -225,6 +227,7 @@ section 5.7 of
 #</div></div>#
 
 
+#$$~$$#
 #</div>#
 
 ----------------------------------------------------------
@@ -346,6 +349,7 @@ section 6.1 and 6.2 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
+#$$~$$#
 #</div>#
 
 ----------------------------------------------------------

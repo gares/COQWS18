@@ -18,6 +18,8 @@ Unset Printing Implicit Defensive.
 - proofs by backchaining
 - proofs by induction
 
+#$$~$$#
+
 #</div>#
 
 ----------------------------------------------------------
@@ -45,6 +47,7 @@ is covered in full details by the Mathematical Components book.
 Here we just cover the basics.
 
 
+#$$~$$#
 #</div>#
 
 ----------------------------------------------------------
@@ -68,12 +71,14 @@ play the role of (decidable) predicates.
 
 #<div>#
 *)
-Check 3 <= 4. (* not a statement *)
-Check (3 <= 4) = true. (* a statement we can prove *)
+Check 0 <= 4. (* not a statement *)
+Check (0 <= 4) = true. (* a statement we can prove *)
 (**
 #</div>#
 
+#<div style='color: red; font-size: 150%;'>#
 Motto: whenever possible predicates are expressed as a programs.
+#</div>#
 
 This choice has a deep impact on the proofs we make in lesson 2 and 3 and
 the way we can form new types in lesson 3.
@@ -110,6 +115,7 @@ section 2.1 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
+#$$~$$#
 #</div>#
 ----------------------------------------------------------
 #<div class="slide">#
@@ -166,6 +172,7 @@ section 2.2.1 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
+#$$~$$#
 #</div>#
 
 
@@ -271,6 +278,7 @@ sections 2.2.2 and 2.5 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
+#$$~$$#
 #</div>#
 
 ----------------------------------------------------------
@@ -318,6 +326,7 @@ section 2.2.3 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
+#$$~$$#
 #</div>#
 
 ----------------------------------------------------------
@@ -363,6 +372,7 @@ section 2.3.3 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
+#$$~$$#
 #</div>#
 
 ----------------------------------------------------------
@@ -406,6 +416,7 @@ section 2.3.4 of
 #<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
 #</div></div>#
 
+#$$~$$#
 #</div>#
 
 ----------------------------------------------------------

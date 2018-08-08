@@ -174,11 +174,13 @@ syntax.
 *)
 Definition twoVtree (b : bool) := if b then 2 else 3.
 Eval lazy in twoVtree true.
-Eval lazy in twoVtree false.
+Eval lazy delta in twoVtree true.
+Eval lazy delta beta in twoVtree true.
+Eval lazy delta beta iota in twoVtree true.
 (**
 #</div>#
 
-We define a few boolean operators that will come in handly
+We define a few boolean operators that will come in handy
 later on.
 
 #<div>#
@@ -422,8 +424,8 @@ We use this mecanism to talk about symbolic computation.
 Section symbols.
 Variables x : nat.
 
-Eval lazy in pred (1 + x).
-Eval lazy in pred x.
+Eval lazy in pred x.+1 .
+Eval lazy in pred x .
 (**
 #</div>#
 
@@ -506,7 +508,7 @@ close to the LaTeX source for the formula above.
 Notation "\sum_ ( m <= i < n ) F" :=
   (foldr (fun i a => F + a) 0 (iota m (n-m))).
 
-Check \sum_(0 <= x < 5) (x * 2 - 1).
+Check \sum_(1 <= x < 5) (x * 2 - 1).
 Eval lazy in \sum_(1 <= x < 5) (x * 2 - 1).
 (**
 #</div>#
