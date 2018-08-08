@@ -217,9 +217,6 @@ About eq_big_perm.
 (**
 #</div>#
 
-Most of the lemmas require the operation to be a monoid,
-some others to be a commutative monoid.
-
 #<div class="note">(notes)<div class="note-text">#
 This slide corresponds to
 section 5.7 of
