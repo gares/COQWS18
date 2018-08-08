@@ -176,14 +176,14 @@ section 5.6 of
 
 The BigOp library is the canonical example
 of a generic theory. It it about the
-[fold] iterator we studies in lesson 1,
+[fold] iterator we studied in lesson 1,
 and the many uses it can have.
 
 #<div>#
 *)
 
 Lemma sum_odd_3 :
-  \sum_(0 <= i < 3.*2 | odd i) i = 3^2.
+  \sum_(0 <= i < 6 | odd i) i = 3^2.
 Proof.
 rewrite unlock /=.
 by [].
@@ -192,13 +192,13 @@ Qed.
 About big_mkcond.
 About big_nat_recr.
 Lemma sum_odd_3_bis :
-  \sum_(0 <= i < 3.*2 | odd i) i = 3^2.
+  \sum_(0 <= i < 6 | odd i) i = 3^2.
 Proof.
 rewrite big_mkcond big_nat_recr //= -big_mkcond /=.
 Abort.
 
 Lemma prod_odd_3_bis :
-  \big[muln/1]_(0 <= i < 3.*2 | odd i) i = 3^2.
+  \big[muln/1]_(0 <= i < 6 | odd i) i = 3^2.
 Proof.
 rewrite big_mkcond big_nat_recr //= -big_mkcond /=.
 Abort.
