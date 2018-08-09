@@ -1,3 +1,7 @@
+(** Cheat sheet available at
+      #<a href='https://www-sop.inria.fr/teams/marelle/types18/cheatsheet.pdf'>https://www-sop.inria.fr/teams/marelle/types18/cheatsheet.pdf</a>#
+*)
+
 From mathcomp Require Import all_ssreflect.
 
 Implicit Type p q r : bool.

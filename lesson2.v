@@ -126,6 +126,19 @@ Our statements are programs. Hence they compute!
 The [by[]] tactic solves trivial goal (mostly) by
 computation.
 
+<<
+Fixpoint addn n m :=
+  if n is p.+1 then (addn p m).+1 else m.
+
+Fixpoint subn m n : nat :=
+  match m, n with
+  | p.+1, q.+1 => subn p q
+  | _ , _ => m
+  end.
+
+Definition leq m n := m - n == 0.
+>>
+
 #<div>#
 *)
 Lemma addSn m n : m.+1 + n = (m + n).+1.
