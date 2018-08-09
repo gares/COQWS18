@@ -335,6 +335,19 @@ Proof.
 move=> /eqP H.
 Abort.
 
+(**
+#<div/>#
+
+Tuples is not the only subtype part of the library.
+Another one is ['I_n], the finite type of natural
+numbers smaller than n.
+
+#<div>#
+*)
+Print ordinal.
+
+About tnth. (* like the safe nth function for vectors *)
+
 End Tup.
 
 (**

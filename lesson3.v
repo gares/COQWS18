@@ -15,6 +15,7 @@ Unset Printing Implicit Defensive.
 - views as iff
 - using views
 - reflect and other inductive "spec"
+- a real proof
 
 #</div>#
 
@@ -107,6 +108,7 @@ so far.
 *)
 
 About iffP.
+About idP.
 
 Lemma eqnP {n m : nat} :
   reflect (n = m) (eqn n m).
@@ -173,7 +175,7 @@ Qed.
 (**
 #</div>#
 
-The [case:] tactic accepts a [\view] flag
+The [case:] tactic accepts a [/view] flag
 to modify the term being analyzed just before
 performing the case analysis.
 
@@ -224,7 +226,7 @@ About andP.
 
 Lemma example_spec a b : a && b ==> (a == b).
 Proof.
-by case: andP => // [[-> ->]].
+by case: andP => [ [-> ->] | // ].
 Qed.
 
 (**
@@ -261,11 +263,9 @@ Abort.
 (**
 #</div>#
 
-Note that [(andP _ _)] has in the type, as the value of
-the index, [(_ && _)] that we call "a pattern". The [case:]
-tactic looks for a subterm of the goal that matches the
-pattern and "guesses" that the two [_] are respectively
-[a] and [b]. This form of automation is the same of [rewrite].
+#<div style='color: red; font-size: 150%;'>#
+Motto: don't let Coq drive your proof!
+#</div>#
 
 #<div>#
 *)
@@ -297,6 +297,28 @@ section 4.2 of
 
 ----------------------------------------------------------
 #<div class="slide">#
+** Infinitude of primes
+
+#<div>#
+*)
+Lemma prime_above m : exists p, prime p && m < p.
+Proof.
+have: 1 < m`! + 1 by rewrite addn1 ltnS fact_gt0.
+move=> /pdivP[q pr_q q_dv_m1].
+exists q; rewrite pr_q /= ltnNge.
+apply: contraL q_dv_m1 => q_le_m.
+by rewrite dvdn_addr ?dvdn_fact ?prime_gt0 // gtnNdvd ?prime_gt1.
+Qed.
+
+(**
+#</div>#
+
+#<p><br/><p>#
+
+#</div>#
+
+----------------------------------------------------------
+#<div class="slide">#
 ** Lesson 3: sum up
 
 - [reflect] and [iffP]
@@ -307,6 +329,8 @@ section 4.2 of
 - [move=> []] (for case)
 - [move=> ->] (for rewrite)
 - [... => ...] the arrow can be used after any command
+- [have: ... by ...] forward step
+- [rewrite ?rule]
 
 #</div>#
 
