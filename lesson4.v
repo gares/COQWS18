@@ -197,7 +197,7 @@ Proof.
 rewrite big_mkcond big_nat_recr //= -big_mkcond /=.
 Abort.
 
-Lemma prod_odd_3_bis :
+Lemma prod_odd_3_bis : (* try [maxn/0] and also [maxn/1] *)
   \big[muln/1]_(0 <= i < 6 | odd i) i = 3^2.
 Proof.
 rewrite big_mkcond big_nat_recr //= -big_mkcond /=.
@@ -248,10 +248,10 @@ Structure tuple_of n T := Tuple {
 }.
 Notation "n .-tuple" := (tuple_of n) : type_scope.
 
-Lemma size_tuple T n (t : n.-tuple T) : size t = n.
+Lemma size_tuple T n (t : n .-tuple T) : size t = n.
 Proof. by case: t => s /= /eqP. Qed.
 
-Example seq_on_tuple n (t : n.-tuple nat) :
+Example seq_on_tuple n (t : n .-tuple nat) :
   size (rev [seq 2 * x | x <- rev t]) = size t.
 Proof. 
 by rewrite map_rev revK size_map.
@@ -270,15 +270,15 @@ sequences to tuples.
 #<div>#
 *)
 
-Lemma rev_tupleP n A (t : n.-tuple A) : size (rev t) == n.
+Lemma rev_tupleP n A (t : n .-tuple A) : size (rev t) == n.
 Proof. by rewrite size_rev size_tuple. Qed.
-Canonical rev_tuple n A (t : n.-tuple A) := Tuple (rev_tupleP t).
+Canonical rev_tuple n A (t : n .-tuple A) := Tuple (rev_tupleP t).
 
-Lemma map_tupleP n A B (f: A -> B) (t: n.-tuple A) : size (map f t) == n.
+Lemma map_tupleP n A B (f: A -> B) (t: n .-tuple A) : size (map f t) == n.
 Proof. by rewrite size_map size_tuple. Qed.
-Canonical map_tuple n A B (f: A -> B) (t: n.-tuple A) := Tuple (map_tupleP f t).
+Canonical map_tuple n A B (f: A -> B) (t: n .-tuple A) := Tuple (map_tupleP f t).
 
-Example seq_on_tuple2 n (t : n.-tuple nat) :
+Example seq_on_tuple2 n (t : n .-tuple nat) :
   size (rev [seq 2 * x | x <- rev t]) = size t.
 Proof. rewrite size_tuple. rewrite size_tuple. by []. Qed.
 
@@ -296,8 +296,8 @@ Which is the expected comparison for tuples?
 Lemma p1 : size [:: 1;2] == 2. Proof. by []. Qed.
 Lemma p2 : size ([:: 1] ++ [::2]) == 2. Proof. by rewrite cat_cons cat0s. Qed.
 
-Let t1 := {| tval := [::1;2]; tsize := p1 |}.
-Let t2 := {| tval := [::1] ++ [::2]; tsize := p2 |}.
+Definition t1 := {| tval := [::1;2]; tsize := p1 |}.
+Definition t2 := {| tval := [::1] ++ [::2]; tsize := p2 |}.
 
 Lemma tuple_uip : t1 = t2.
 Proof.
@@ -325,8 +325,8 @@ that means we can craft an eqType.
 
 
 Canonical tuple_subType n T := Eval hnf in [subType for (@tval n T)].
-Definition tuple_eqMixin n (T : eqType) := Eval hnf in [eqMixin of n.-tuple T by <:].
-Canonical tuple_eqType n (T : eqType) := Eval hnf in EqType (n.-tuple T) (tuple_eqMixin n T).
+Definition tuple_eqMixin n (T : eqType) := Eval hnf in [eqMixin of n .-tuple T by <:].
+Canonical tuple_eqType n (T : eqType) := Eval hnf in EqType (n .-tuple T) (tuple_eqMixin n T).
 
 Check [eqType of 3.-tuple nat].
 
