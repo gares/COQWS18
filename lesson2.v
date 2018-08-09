@@ -81,13 +81,13 @@ Motto: whenever possible predicates are expressed as a programs.
 #</div>#
 
 This choice has a deep impact on the proofs we make in lesson 2 and 3 and
-the way we can form new types in lesson 3.
+the way we can form new types in lesson 4.
 
 More statements using equality and predicates in bool 
 
 #<div>#
 *)
-Lemma eqn_leq m n : (m == n) = (m <= n) && (n <= m).
+Lemma eqn_leq (m n : nat) : (m == n) = (m <= n) && (n <= m).
 Abort.
 
 Lemma leq0n (n : nat) : 0 <= n.
@@ -232,7 +232,6 @@ Fixpoint muln (m n : nat) : nat :=
 
 #<div>#
 *)
-Print Nat.mul.
 Lemma muln_eq0 m n :
 (m * n == 0) = (m == 0) || (n == 0).
 Proof.
