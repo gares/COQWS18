@@ -301,7 +301,7 @@ section 4.2 of
 
 #<div>#
 *)
-Lemma prime_above m : exists p, prime p && m < p.
+Lemma prime_above (m : nat) : exists p, (prime p) && (m < p).
 Proof.
 have: 1 < m`! + 1 by rewrite addn1 ltnS fact_gt0.
 move=> /pdivP[q pr_q q_dv_m1].

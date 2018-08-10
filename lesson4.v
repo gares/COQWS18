@@ -17,6 +17,14 @@ Unset Printing Implicit Defensive.
 - the BigOp library (the theories of fold)
 - subtypes
 
+Let's start with a lie and then make it true:
+
+#<div style='color: red; font-size: 150%;'>#
+Coq is an object oriented
+programming language.
+#</div>#
+
+
 #</div>#
 
 
@@ -24,7 +32,9 @@ Unset Printing Implicit Defensive.
 #<div class="slide">#
 ** Generic notations and theories
 
-Example: the [==] compatable equality
+Polymorphism != overloading.
+
+Example: the [==] computable equality
 
 #<div>#
 *)
@@ -146,9 +156,9 @@ Fixpoint undup s :=
     if x \in s1 then undup s1 else x :: undup s1
   else [::].
 
-About undup_uniq.
-
 End Theory. End Seq.
+
+About undup_uniq.
 
 Eval lazy in (undup [::1;3;1;4]).
 
@@ -296,7 +306,7 @@ Which is the expected comparison for tuples?
 Lemma p1 : size [:: 1;2] == 2. Proof. by []. Qed.
 Lemma p2 : size ([:: 1] ++ [::2]) == 2. Proof. by rewrite cat_cons cat0s. Qed.
 
-Definition t1 := {| tval := [::1;2]; tsize := p1 |}.
+Definition t1 := {| tval := [::1;2];        tsize := p1 |}.
 Definition t2 := {| tval := [::1] ++ [::2]; tsize := p2 |}.
 
 Lemma tuple_uip : t1 = t2.
@@ -366,7 +376,10 @@ section 6.1 and 6.2 of
 #<div class="slide">#
 ** Sum up
 
-- [xxType] is an interface (eg [eqType] for types with an equality test).
+- Coq is an object oriented language ;-)
+
+- in the Mathematical Components library [xxType] is an
+  interface (eg [eqType] for types with an equality test).
   Notations and theorems are linked to interfaces.
   Interfaces are organized in hierarchies (we just saw a picture,
   how it works can be found in the book).
