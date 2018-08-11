@@ -92,7 +92,7 @@ Mathematical Components defines a hierarchy
 of interfaces. They group notations and
 theorems.
 
-# <img style="width: 100%" src="demo-support-master.svg"/>#
+# <img style="width: 100%" src="demo-support-master.png"/>#
 
 Let's use the theory of [eqType]
 
