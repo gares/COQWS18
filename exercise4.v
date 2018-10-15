@@ -71,11 +71,11 @@ Proof. by rewrite oddP evenP. Qed.
 Fail Check forall n m : odd_nat, n == m.
 
 Canonical odd_subType :=
-  (*D*)Eval hnf in [subType for oval].
+(*D*)Eval hnf in [subType for oval].
 Definition odd_eqMixin :=
-  (*D*)Eval hnf in [eqMixin of odd_nat by <:].
+(*D*)Eval hnf in [eqMixin of odd_nat by <:].
 Canonical odd_eqType :=
-  (*D*)Eval hnf in EqType odd_nat odd_eqMixin.
+(*D*)Eval hnf in EqType odd_nat odd_eqMixin.
 
 Check forall n m : odd_nat, n == m.
 

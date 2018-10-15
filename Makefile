@@ -62,6 +62,10 @@ validate: $(VS) $(EX) test.v
 # Lessons
 lesson%.html: lesson%.html.tmp
 	@mv $< $@
+
+# test
+test.html: test.html.tmp
+	@mv $< $@
 	
 # Exercises
 exercise%.html: exercise%.html.tmp
