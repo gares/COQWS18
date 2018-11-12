@@ -41,8 +41,7 @@ upload: $(FILES) cheat-sheet/cheatsheet.pdf jscoq.tgz
 %.html.tmp: %.v header footer Makefile udoc/udoc.byte
 	@cat header $< footer > $*tmp.v
 	@# if does not work, then html ok but no links
-	-$(COQC) $*tmp.v > /dev/null
-	@# -$(COQC) -R $(MC) mathcomp -I $(MC) $<
+	-$(COQC) -w -notation-overridden,-undo-batch-mode $*tmp.v > /dev/null
 	@./udoc/udoc.byte -t $* $*tmp.v -o $@
 	@sed -i -e 's?^ *<h1>$*tmp</h1>??' $@
 	@sed -i -e 's?^ *<title.*?<title>$*</title>?' $@

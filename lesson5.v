@@ -297,28 +297,6 @@ section 4.2 of
 
 ----------------------------------------------------------
 #<div class="slide">#
-** Infinitude of primes
-
-#<div>#
-*)
-Lemma prime_above (m : nat) : exists p, (prime p) && (m < p).
-Proof.
-have: 1 < m`! + 1 by rewrite addn1 ltnS fact_gt0.
-move=> /pdivP[q pr_q q_dv_m1].
-exists q; rewrite pr_q /= ltnNge.
-apply: contraL q_dv_m1 => q_le_m.
-by rewrite dvdn_addr ?dvdn_fact ?prime_gt0 // gtnNdvd ?prime_gt1.
-Qed.
-
-(**
-#</div>#
-
-#<p><br/><p>#
-
-#</div>#
-
-----------------------------------------------------------
-#<div class="slide">#
 ** Lesson 3: sum up
 
 - [reflect] and [iffP]
