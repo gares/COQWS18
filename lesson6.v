@@ -87,7 +87,7 @@ rewrite -[edivn m d.+1]/(edivn_rec d m 0) in ed *.
 rewrite -[m]/(0 * d.+1 + m).
 elim: m {-2}m 0 (leqnn m) @ed => [[]//=|n IHn [//=|m]] q le_mn.
 rewrite edivn_recE subn_if_gt; case: ifP => [le_dm|lt_md]; last first.
-by rewrite /= ltnS ltnNge lt_md eqxx.
+  by rewrite /= ltnS ltnNge lt_md eqxx.
 have /(IHn _ q.+1) : m - d <= n by rewrite (leq_trans (leq_subr d m)).
 by rewrite /= mulSnr -addnA -subSS subnKC.
 Qed.
