@@ -15,7 +15,6 @@ Unset Printing Implicit Defensive.
 - views as iff
 - using views
 - reflect and other inductive "spec"
-- a real proof
 
 #</div>#
 
@@ -307,8 +306,6 @@ section 4.2 of
 - [move=> []] (for case)
 - [move=> ->] (for rewrite)
 - [... => ...] the arrow can be used after any command
-- [have: ... by ...] forward step
-- [rewrite ?rule]
 
 #</div>#
 
