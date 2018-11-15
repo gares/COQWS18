@@ -56,12 +56,45 @@ Here we just cover the basics.
 Most of the statements that we consider in Mathematical
 Components are equalities.
 
-It is not surprising one can equate two numbers.
+#<div>#
+*)
+
+Check (_ = _).
+
+(**
+#</div>#
+
+For example, we can equate two expressions representing natural numbers.
+
+#<div>#
+
+*)
+
+Lemma addnA: forall (m n k : nat), m + (n + k) = (m + n) + k.
+Abort.
+
+(**
+#</div>#
+
+Addition is defined as left-associative.
 
 #<div>#
 *)
+
+Lemma addnA: forall (m n k : nat), m + (n + k) = m + n + k.
+Abort.
+
+(**
+#</div>#
+
+Quantifications can be set as parameters before the colon.
+
+#<div>#
+*)
+
 Lemma addnA (m n k : nat) : m + (n + k) = m + n + k.
 Abort.
+
 (**
 #</div>#
 
@@ -70,8 +103,10 @@ play the role of (decidable) predicates.
 
 #<div>#
 *)
+
 Check 0 <= 4. (* not a statement *)
 Check (0 <= 4) = true. (* a statement we can prove *)
+
 (**
 #</div>#
 
@@ -82,27 +117,63 @@ Motto: whenever possible predicates are expressed as a programs.
 This choice has a deep impact on the proofs we make in lesson 2 and 3 and
 the way we can form new types in lesson 4.
 
-More statements using equality and predicates in bool 
-
+Booleans can be coerced into statements.
 #<div>#
 *)
-Lemma eqn_leq (m n : nat) : (m == n) = (m <= n) && (n <= m).
-Abort.
 
-Lemma leq0n (n : nat) : 0 <= n.
-Abort.
+Check is_true (* Definition is_true b := b = true *).
+
 (**
 #</div>#
 
-Notice that in the first statement [=] really means
-"if and only if".
-
-The last statement is valid thanks to the [is_true]
-"coercion" automatically inserted by Coq.
+Tests can be turned into statements.
 
 #<div>#
 *)
-Check is_true.
+
+Check (_ <= _).
+
+Check is_true (_ <= _).
+
+Lemma leq0n (n : nat) : is_true (0 <= n).
+Abort.
+
+(**
+#</div>#
+
+ the [is_true]
+"coercion" is automatically inserted by Coq.
+
+#<div>#
+*)
+
+Lemma leq0n (n : nat) : 0 <= n.
+Abort.
+
+(**
+#</div>#
+
+Equality statement between tests reads as  "if and only if".
+
+#<div>#
+*)
+
+Print Nat.sub.
+
+Lemma eqn_leq (m n : nat) : m == n = (m <= n) && (n <= m).
+Abort.
+
+(**
+#</div>#
+
+[(_ <= _) && (_ <= _)] has a special notation [(_ <= _ <= _)]
+
+#<div>#
+*)
+
+Lemma eqn_leq (m n : nat) : m == n = (m <= n <= m).
+Abort.
+
 (**
 #</div>#
 
@@ -128,19 +199,59 @@ computation.
 <<
 Fixpoint addn n m :=
   if n is p.+1 then (addn p m).+1 else m.
+>>
+#<div>#
+*)
 
+Goal  2 + 2 = 4.
+Proof. by []. Qed.
+
+
+Lemma addSn m n : m.+1 + n = (m + n).+1.
+Proof. by []. Qed.
+
+
+(**
+#</div>#
+<<
 Fixpoint subn m n : nat :=
   match m, n with
   | p.+1, q.+1 => subn p q
   | _ , _ => m
   end.
+>>
+#<div>#
+*)
 
+Goal  2 - 4 = 0.
+Proof. by []. Qed.
+
+Lemma subn0 m n : m.+1 - n.+1 = m - n.
+Proof. by []. Qed.
+
+(**
+#</div>#
+<<
 Definition leq m n := m - n == 0.
 >>
+#<div>#
+*)
+
+Goal  0 <= 4.
+Proof. by []. Qed.
+
+(**
+#</div>#
+
+[_ < _] is just a notation for [_.+1 <= _].
 
 #<div>#
 *)
-Lemma addSn m n : m.+1 + n = (m + n).+1.
+
+Goal  3 < 3 = false.
+Proof. by []. Qed.
+
+Goal  4 <= 3 = false.
 Proof. by []. Qed.
 
 Lemma leq0n n : 0 <= n.
@@ -151,10 +262,9 @@ Proof. by []. Qed.
 
 Lemma ltnS m n : (m.+1 <= n.+1) = (m <= n).
 Proof. by []. Qed.
+
 (**
 #</div>#
-
-Notice [_ < _] is just a notation for [_.+1 <= _].
 
 Notice the naming convention.
 
@@ -166,6 +276,7 @@ Locate "~~".
 
 Lemma negbK (b : bool) : ~~ (~~ b) = b.
 Proof. Fail by []. Abort.
+
 (**
 #</div>#
 
@@ -199,6 +310,7 @@ The [case: term] command performs this proof step.
 
 #<div>#
 *)
+
 Lemma negbK b : ~~ (~~ b) = b.
 Proof.
 case: b.
@@ -215,6 +327,7 @@ Lemma orbN b : b || ~~ b.
 Proof.
 by case: b.
 Qed.
+
 (**
 #</div>#
 
@@ -226,12 +339,14 @@ names for these arguments.
 
 #<div>#
 *)
+
 Lemma leqn0 n : (n <= 0) = (n == 0).
 Proof.
 case: n => [| p].
   by [].
 by [].
 Qed.
+
 (**
 #</div>#
 
@@ -252,6 +367,7 @@ case: m => [|p].
 case: n => [|k]; last first. (* rotates the goals *)
   by [].
 Abort.
+
 (**
 #</div>#
 
@@ -264,6 +380,7 @@ Search _ (_ * 0) in ssrnat. (*   :-(   *)
 Search _ muln 0 in ssrnat.
 Print right_zero.
 Search right_zero.
+
 (**
 #</div>#
 
@@ -302,14 +419,18 @@ Coq user manual, SSReflect chapter).
 
 #<div>#
 *)
+
 Lemma muln_eq0 m n :
   (m * n == 0) = (m == 0) || (n == 0).
 Proof.
-case: m => [ // |p].
-case: n => [ |k //].
-rewrite muln0.
+case: m => [|p].
+  by [].
+case: n => [|q].
+  rewrite muln0.
+  by [].
 by [].
 Qed.
+
 (**
 #</div>#
 
@@ -327,6 +448,7 @@ rewrite -mulnBr.
 rewrite muln_eq0.
 by [].
 Qed.
+
 (**
 #</div>#
 
@@ -346,10 +468,8 @@ section 2.2.3 of
 
 - [by []] trivial proofs (including computation)
 - [case: m] case split
-- [apply: t] backchain
-- [rewrite t1 t2 //] rewrite
+- [rewrite t1 -t2 /def] rewrite
 
 #</div>#
-
 
 *)
