@@ -29,7 +29,7 @@ cheat-sheet/cheatsheet.pdf: cheat-sheet/cheatsheet.tex
 check-ocaml-ver-%:
 	@ V=`(echo -n '2 '; ocamlc -version; echo -n '1 '; echo $*) \
 	  | sed 's/\./ /g' \
-	  | sort -n -k 4 -k 3 -k 2 -k 1 | head -n 1 | cut -d ' ' -f 1)`; \
+	  | sort -n -k 4 -k 3 -k 2 -k 1 | head -n 1 | cut -d ' ' -f 1`; \
 	if `test $$V = 2`; then echo "OCaml must be >= $*"; false; fi
 
 upload: $(FILES) cheat-sheet/cheatsheet.pdf jscoq.tgz
