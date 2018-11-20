@@ -9,7 +9,7 @@ Unset Printing Implicit Defensive.
 
 ----------------------------------------------------------
 #<div class="slide">#
-** Lesson 3: summary
+** Lesson 5 : summary
 
 - bool vs Prop
 - views as iff
@@ -93,7 +93,7 @@ section 3.x of
 
 ----------------------------------------------------------
 #<div class="slide">#
-** Stating and proving a view
+** Stating and proving a reflection view
 
 To link a concept in bool and one in Prop we typically
 use the [reflect] predicate.
@@ -259,9 +259,36 @@ Proof.
 case: ltngtP.
 Abort.
 
+
 (**
 #</div>#
 
+
+----------------------------------------------------------
+
+#<div class="slide">#
+** Using views in other cases.
+
+- By processing an assumption through a lemma.
+- The leading / makes the lemma work as a function.
+- If lemma states A -> B, we ca use it as a function to get a proof of B from a proof of A.
+- One can also chain multiple views on the same stack item.
+
+#</div>#
+*)
+
+About prime_gt1.
+
+Lemma example_2 x y  : prime x -> odd y -> 2 < y + x.
+Proof.
+move/prime_gt1 => x_gt_1. (* view through prime_gt1 *)
+Undo.
+move/prime_gt1/ltnW.
+ 
+
+(**
+#</div>#
+----------------------------------------------------------
 #<div style='color: red; font-size: 150%;'>#
 Motto: don't let Coq drive your proof!
 #</div>#
@@ -296,7 +323,7 @@ section 4.2 of
 
 ----------------------------------------------------------
 #<div class="slide">#
-** Lesson 3: sum up
+** Lesson 5: sum up
 
 - [reflect] and [iffP]
 - [case/v: m] case split + view application
