@@ -84,7 +84,7 @@ End reflect1.
 
 
 (** *** Exercise 6:
-- Get excluded-middle when P is equivalent to a bool : "decidable"
+- Get excluded-middle when P is equivalent to a bool" "decidable"
  *)
 
 (** Equivalence definition *)
@@ -156,3 +156,120 @@ Proof.
 (*D*)by rewrite dvdn_addr ?dvdn_fact ?prime_gt0 // gtnNdvd ?prime_gt1.
 Qed.
 
+(** 
+For this section:                                                   
+   only move=> h, move/V: h => h, case/V: h, by ... allowed         
+ *)
+
+Goal forall (P Q : Prop), (P <-> Q) -> P -> Q.
+Proof.
+(*D*) move=> P Q h hp. by move/h: hp => hp.
+Qed.
+
+Goal forall (P : nat -> Prop) (Q : Prop),
+     (P 0 -> Q)
+  -> (forall n, P n.+1 -> P n)
+  -> P 4 -> Q.
+Proof.
+(*D*) move=> P Q P0Q Hp.
+(*D*) by move/Hp/Hp/Hp/Hp.
+Qed.
+
+
+(**  No case analysis on b, b1, b2 allowed  *)
+Goal forall (b b1 b2 : bool), (b1 -> b) -> (b2 -> b) -> b1 || b2 -> b.
+Proof. 
+(*D*) move=> b b1 b2 h1 h2 h. case/orP: h.
+(*D*)   by move/h1.
+(*D*)   by move/h2.
+Qed.
+
+Goal forall (Q : nat -> Prop) (p1 p2 : nat -> bool) x,
+  ((forall y, Q y -> p1 y /\ p2 y) /\ Q x) -> p1 x && p2 x.
+Proof.
+(*D*) move=> Q p1 p2 x h. case: h. move=> /(_ x) h qx.
+(*D*) move/h: qx. by move/andP.
+Qed.
+
+Goal forall (Q : nat -> Prop) (p1 p2 : nat -> bool) x,
+  ((forall y, Q y -> p1 y \/ p2 y) /\ Q x) -> p1 x || p2 x.
+Proof.
+(*D*) move=> Q p1 p2 x h. case: h. move=> /(_ x) h qx.
+(*D*) move/h: qx. by move/orP.
+Qed.
+
+(** 
+ No xxxP lemmas allowed, but reflectT and reflectF and case analysis allowed ,                                            
+ *)
+Lemma myidP: forall (b : bool), reflect b b.
+Proof.
+(*D*) move=> b; case: b.
+(*D*)   exact: ReflectT.
+(*D*)   exact: ReflectF.
+Qed.
+
+Lemma mynegP: forall (b : bool), reflect (~ b) (~~ b).
+Proof.
+(*D*) move=> b. case: b.
+(*D*)   exact: ReflectF.
+(*D*)   exact: ReflectT.
+Qed.
+
+Lemma myandP: forall (b1 b2 : bool), reflect (b1 /\ b2) (b1 && b2).
+Proof.
+(*D*) move=> b1 b2. case: b1.
+(*D*)  case b2.
+(*D*)    exact: ReflectT.
+(*D*)    apply: ReflectF. move=> h. by case: h.
+(*D*)  case b2.
+(*D*)    apply: ReflectF. move=> h. by case: h.
+(*D*)    apply: ReflectF. move=> h. by case: h.
+Qed.
+
+Lemma myiffP:
+  forall (P Q : Prop) (b : bool),
+    reflect P b -> (P -> Q) -> (Q -> P) -> reflect Q b.
+Proof.
+(*D*) move=> P Q b Pb PQ QP. move: Pb. case: b.
+(*D*)   move=> h. case: h.
+(*D*)     move/PQ=> hp. by apply: ReflectT.
+(*D*)     move=> hNp. apply: ReflectF. move/QP=> hp.
+(*D*)     by move/hNp: hp.
+(*D*)   move=> h. case: h.
+(*D*)     move/PQ=> hq. by apply: ReflectT.
+(*D*)     move=> hNp. apply: ReflectF. move/QP=> hp.
+(*D*)     by move/hNp: hp.
+Qed.
+
+
+(** 
+  Some arithmetics                                        
+ *)
+
+Fixpoint len (n m : nat) : bool :=
+  match n, m with
+  | 0    , _     => true
+  | n'.+1, 0     => false
+  | n'.+1, m'.+1 => len n' m'
+  end.
+
+Lemma lenP: forall n m, reflect (exists k, k + n = m) (len n m).
+Proof.
+(*D*) move=> n; elim: n.
+(*D*)   move=> m. apply: (iffP idP).
+(*D*)     move=> _. by exists m.
+(*D*)     by [].
+(*D*)   move=> n IH m. apply: (iffP idP).
+(*D*)     case: m. by [].
+(*D*)       move=> m /= le_nm. move/IH: le_nm=> le_nm.
+(*D*)       case: le_nm. move=> k eq_xk_m. exists k.
+(*D*)       by rewrite -eq_xk_m addnS.
+(*D*)     case: m.
+(*D*)       case. move=>k. by rewrite addnS.
+(*D*)       move=> m h. case: h => k.
+(*D*)       rewrite addnS. move=> eq_kSn_k. case: eq_kSn_k.
+(*D*)       move=> eq_kn_m. apply/IH. by exists k.
+Qed.
+
+
+(* --------------------------------------------------------------------*)

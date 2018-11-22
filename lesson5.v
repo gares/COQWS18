@@ -209,7 +209,7 @@ sections 4.1.3 and 4.1.4 of
 The [reflect] inductive predicate has an index.
 
 Indexes are replaced by the value dictated by the
-constructor when prforming a casa analysis. In a way
+constructor when performing a case analysis. In a way
 indexes express equations that are substituted
 automatically.
 
@@ -267,12 +267,13 @@ Abort.
 ----------------------------------------------------------
 
 #<div class="slide">#
-** Using views in other cases.
+** Using views  with non reflexive lemmas
 
 - By processing an assumption through a lemma.
 - The leading / makes the lemma work as a function.
 - If lemma states A -> B, we ca use it as a function to get a proof of B from a proof of A.
 - One can also chain multiple views on the same stack item.
+
 
 #</div>#
 *)
@@ -285,26 +286,41 @@ move/prime_gt1 => x_gt_1. (* view through prime_gt1 *)
 Undo.
 move/prime_gt1/ltnW.
  
+Abort.
+
 
 (**
 #</div>#
-----------------------------------------------------------
-#<div style='color: red; font-size: 150%;'>#
-Motto: don't let Coq drive your proof!
-#</div>#
+Using views with tactics
+- we can also use views on non reflexive lemmas: apply/V, case/V.
 
 #<div>#
 *)
 
-About ifP.
 
-Lemma example_spec3 a b :
-  (if (a <= 0) then a + b else b) == b.
+
+(**
+#</div>#
+The view mechanism can also be used for  double implication:
+- A <-> B is a notation for the conjonction: (A -> B) /\ (B -> A)
+- If V is a proof of (A <-> B), apply/V will automatically guess which part of the conjonction it will use
+
+
+
+#<div>#
+*)
+
+Lemma example_3 A B  (V: A <-> B): B -> A .
 Proof.
-case: ifP => //.
-rewrite leqn0 => /eqP ->.
+move=>b.
+apply/V.
 by [].
 Qed.
+
+
+
+
+
 
 (**
 #</div>#
