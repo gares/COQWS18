@@ -274,6 +274,7 @@ Notice the naming convention.
 
 Print negb.
 Locate "~~".
+Search negb in ssr.ssrbool.
 
 Lemma negbK (b : bool) : ~~ (~~ b) = b.
 Proof. Fail by []. Abort.

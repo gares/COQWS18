@@ -59,7 +59,6 @@ Lemma implybE p q : p ==> q = ~~ p || q.
     without using the case tactic
 *)
 
-
 (** *** Exercise 7  :
 *)
 
@@ -83,4 +82,53 @@ Lemma find_me p q :  ~~ p = q -> p (+) q.
 (*D*)Locate "(+)".
 (*D*)Search _ addb negb.
 (*D*)Proof. by move=> np_q; rewrite -np_q addbN negb_add. Qed.
+
+
+(** ***
+    maxn defines the maximum of two numbers 
+*)
+
+Print maxn.
+Search maxn in ssrnat.
+
+(** ***
+    We define the maxinum of three number as 
+    folllow  
+*)
+
+Definition max3n p q r :=
+   if p < q then maxn q r else maxn p r.
+
+(** ***
+    Try to prove the following theorem
+    (you may use properties of maxn)
+*)
+
+
+(** *** Exercise 10
+*)
+
+Lemma max3n3n p : max3n p p p = p.
+(*D*) Proof. by rewrite /max3n if_same maxnn. Qed.
+
+(** *** Exercise 11
+*)
+Lemma max3E p q r : max3n p q r = maxn (maxn p q) r.
+(*D*) Proof. by rewrite /max3n /maxn; case: (p < q). Qed.
+
+(** *** Exercise 12
+*)
+Lemma max3n_perm213 p q r : max3n p q r = max3n q p r.
+(*D*) Proof. by rewrite max3E (maxnC p) -max3E. Qed.
+
+(** *** Exercise 13
+*)
+Lemma max3n_perm132 p q r : max3n p q r = max3n p r q.
+(*D*) Proof. by rewrite max3E -maxnA (maxnC q) maxnA -max3E. Qed.
+
+(** *** Exercise 14
+*)
+Lemma max3n_perm231 p q r : max3n p q r = max3n q r p.
+(*D*) Proof. by rewrite max3n_perm213 max3n_perm132. Qed.
+
 
