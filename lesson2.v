@@ -60,6 +60,7 @@ Components are equalities.
 *)
 
 Check (_ = _).
+Locate "_ = _".
 
 (**
 #</div>#
