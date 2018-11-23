@@ -96,8 +96,8 @@ Search maxn in ssrnat.
     folllow  
 *)
 
-Definition max3n p q r :=
-   if p < q then maxn q r else maxn p r.
+Definition max3n a b c :=
+   if a < b then maxn b c else maxn a c.
 
 (** ***
     Try to prove the following theorem
@@ -108,27 +108,68 @@ Definition max3n p q r :=
 (** *** Exercise 10
 *)
 
-Lemma max3n3n p : max3n p p p = p.
+Lemma max3n3n a : max3n a a a = a.
 (*D*) Proof. by rewrite /max3n if_same maxnn. Qed.
 
 (** *** Exercise 11
 *)
-Lemma max3E p q r : max3n p q r = maxn (maxn p q) r.
-(*D*) Proof. by rewrite /max3n /maxn; case: (p < q). Qed.
+Lemma max3E a b c : max3n a b c = maxn (maxn a b) c.
+(*D*) Proof. by rewrite /max3n /maxn; case: (a < b). Qed.
 
 (** *** Exercise 12
 *)
-Lemma max3n_perm213 p q r : max3n p q r = max3n q p r.
-(*D*) Proof. by rewrite max3E (maxnC p) -max3E. Qed.
+Lemma max3n_213 a b c : max3n a b c = max3n b a c.
+(*D*) Proof. by rewrite max3E (maxnC a) -max3E. Qed.
 
 (** *** Exercise 13
 *)
-Lemma max3n_perm132 p q r : max3n p q r = max3n p r q.
-(*D*) Proof. by rewrite max3E -maxnA (maxnC q) maxnA -max3E. Qed.
+Lemma max3n_132 a b c : max3n a b c = max3n a c b.
+(*D*) Proof. by rewrite max3E -maxnA (maxnC b) maxnA -max3E. Qed.
 
 (** *** Exercise 14
 *)
-Lemma max3n_perm231 p q r : max3n p q r = max3n q r p.
-(*D*) Proof. by rewrite max3n_perm213 max3n_perm132. Qed.
+Lemma max3n_231 a b c : max3n a b c = max3n b c a.
+(*D*) Proof. by rewrite max3n_213 max3n_132. Qed.
 
+(** ***
+    We define functions that test if 3 natural numbers are
+    in increasing (or decreasing) order 
+*)
 
+Definition order3n (T : Type) (r : rel T) x y z := (r x y) && (r y z).
+Definition incr3n := order3n nat (fun x y => x <= y).
+Definition decr3n := order3n nat (fun x y => y <= x).
+
+(** *** Exercise 15
+*)
+Lemma incr3n_decr a b c : incr3n a b c = decr3n c b a.
+(*D*) Proof. by rewrite /incr3n /order3n andbC. Qed.
+
+(** *** Exercise 16
+*)
+
+Lemma incr3_3n a : incr3n a a a.
+(*D*) by rewrite /incr3n /order3n leqnn. Qed.
+
+(** *** Exercise 17
+*)
+
+Lemma decr3_3n a : decr3n a a a.
+(*D*) by rewrite -incr3n_decr incr3_3n. Qed.
+
+(** *** Exercise 18
+*)
+
+Lemma incr3n_leq12 a b c : incr3n a b c -> a <= b.
+(*D*) by rewrite /incr3n /order3n; case: (_ <= _). Qed.
+
+(** *** Exercise 19
+*)
+Lemma incr3n_leq23 a b c : incr3n a b c -> b <= c.
+(*D*) by rewrite /incr3n /order3n; case: (_ <= _). Qed.
+
+(** *** Exercise 20
+*)
+Lemma incr3n_eq a b c : incr3n a b a = (a == b).
+(*D*) by rewrite /incr3n /order3n eqn_leq. Qed.
+ 
