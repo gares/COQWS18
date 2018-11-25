@@ -398,6 +398,7 @@ rewrite big_mkord.
 by [].
 Qed.
 
+End Primer.
 
 (**
 #</div>#
