@@ -13,22 +13,34 @@ Objective: learn the Coq system in the MC library
 
 *** Roadmap
 
-- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson1.html">lesson 1</a>#: Programs
-  - #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise1.html">exercise</a># and #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise1-solution.html">solution</a>#
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson1.html">lesson 1</a>#: Functions and computations
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise1.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise1-solution.html">solution</a>-->#
 
-- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson2.html">lesson 2</a>#: Proofs
-  - #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise2.html">exercise</a># and #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise2-solution.html">solution</a>#
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson2.html">lesson 2</a>#: First steps in formal proofs
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise2.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise2-solution.html">solution</a>-->#
 
-- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson3.html">lesson 3</a>#: Boolean reflection
-  - #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise3.html">exercise</a># and #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise3-solution.html">solution</a>#
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson3.html">lesson 3</a>#: A few more steps in formal proofs
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise3.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise3-solution.html">solution</a>-->#
 
-- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson4.html">lesson 4</a>#: Libraries
-  - #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise4.html">exercise</a># and #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise4-solution.html">solution</a>#
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson4.html">lesson 4</a>#: Type theory
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise4.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise4-solution.html">solution</a>-->#
+
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson5.html">lesson 5</a>#: Boolean reflection
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise5.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise5-solution.html">solution</a>-->#
+
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson6.html">lesson 6</a>#: Real proofs, finally!
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise6.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise6-solution.html">solution</a>-->#
+
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson7.html">lesson 7</a>#: Generic theories
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise7.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise7-solution.html">solution</a>-->#
+
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson8.html">lesson 8</a>#: Subtypes
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise8.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise8-solution.html">solution</a>-->#
 
 *** Teaching material
 
 - Slides and exercises
-  #<a href="https://www-sop.inria.fr/teams/marelle/types18/">https://www-sop.inria.fr/teams/marelle/types18/</a>#
+  #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/">https://www-sop.inria.fr/teams/marelle/coq-18/</a>#
 - Coq (#<a href="https://coq.inria.fr/download">software</a>#
   and #<a href="https://coq.inria.fr/distrib/current/refman/">user manual</a>#)
 - Mathematical Components
