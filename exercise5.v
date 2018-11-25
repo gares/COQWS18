@@ -84,7 +84,7 @@ End reflect1.
 
 
 (** *** Exercise 6:
-- Get excluded-middle when P is equivalent to a bool" "decidable"
+- Get excluded-middle when P is equivalent to a "bool" "decidable"
  *)
 
 (** Equivalence definition *)
