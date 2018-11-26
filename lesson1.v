@@ -42,7 +42,7 @@ Objective: learn the Coq system in the MC library
 - Slides and exercises
   #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/">https://www-sop.inria.fr/teams/marelle/coq-18/</a>#
 - Coq (#<a href="https://coq.inria.fr/download">software</a>#
-  and #<a href="https://coq.inria.fr/distrib/current/refman/">user manual</a>#)
+  and #<a href="https://coq.inria.fr/distrib/current/refman/">user manual</a>#, in particular the chapter about #<a href="https://coq.inria.fr/distrib/current/refman/proof-engine/ssreflect-proof-language.html">SSReflect</a>#)
 - Mathematical Components
   (#<a href="http://math-comp.github.io/math-comp/">software</a># and
   #<a href="https://math-comp.github.io/mcb/">book</a>#)
