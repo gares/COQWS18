@@ -11,7 +11,7 @@ Implicit Type m n a b c : nat.
     - prove this satement by induction
 *)
 Lemma iterSr A n (f : A -> A) x : iter n.+1 f x = iter n f (f x).
-(*D*)Proof. by elim: n => // n IH; rewrite /= -IH. Qed.
+(*A*)Proof. by elim: n => // n IH; rewrite /= -IH. Qed.
 
 (** *** Exercise 2:
     - look up the definition of [iter] (note there is an accumulator varying
@@ -23,4 +23,48 @@ Proof.
 (*D*)elim: n m => [|n IHn] m.
 (*D*)  by rewrite subn0.
 (*D*)by rewrite /= IHn subnS.
-Qed.
+(*A*)Qed.
+
+(** *** Exercise 3:
+  prove the sum of the lists [odds n] of exercise 1 is [n ^ 2].
+
+- recall from exercise 1
+*)
+Definition add2list s := map (fun x => x.+2) s.
+Definition odds n := iter n (fun s => 1 :: add2list s) [::].
+(**
+- We define a sum operation
+*)
+Definition suml := foldl addn 0.
+(**
+- any [foldl addn] can be rexpressed as a sum
+*)
+Lemma foldl_addE n s : foldl addn n s = n + suml s.
+Proof.
+(*D*)elim: s n => //= x s IHs n.
+(*D*)by rewrite /suml/= !IHs add0n addnA.
+(*A*)Qed.
+(**
+- Not to break abstraction, prove [suml_cons]
+*)
+Lemma suml_cons n s : suml (n :: s) = n + suml s.
+(*A*)Proof. by rewrite /suml/= foldl_addE. Qed.
+
+Lemma suml_add2list s : suml (add2list s) = suml s + 2 * size s.
+Proof.
+(*D*)elim: s => [|x s IHs] //=; rewrite !suml_cons IHs.
+(*D*)by rewrite !mulnS !addnS addnA.
+(*A*)Qed.
+
+Lemma size_add2list s : size (add2list s) = size s.
+(*A*)Proof. by apply: size_map. Qed.
+
+Lemma size_odds n : size (odds n) = n.
+(*A*)Proof. by elim: n => //= n; rewrite size_add2list => ->. Qed.
+
+Lemma eq_suml_odds n : suml (odds n) = n ^ 2.
+Proof.
+(*D*)elim: n => //= n IHn; rewrite suml_cons.
+(*D*)rewrite suml_add2list IHn addnCA addnA.
+(*D*)by rewrite -(addn1 n) sqrnD size_odds muln1.
+(*A*)Qed.

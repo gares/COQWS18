@@ -86,6 +86,14 @@ elim: m => [|m IHm].
   by [].
 by rewrite addSn IHm.
 Qed.
+
+Lemma muln0 m : m * 0 = 0.
+Proof.
+elim: m => [|m IHm].
+  by [].
+by rewrite mulSn IHm.
+Qed.
+
 (**
 #</div>#
 
