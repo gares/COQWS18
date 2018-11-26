@@ -295,6 +295,7 @@ Restart.
 
 Proof. by elim: s1 z0 => [//|x xs IH] acc /=; rewrite IH. Qed.
 (**
+#</div>#
 
 #<p><br/><p>#
 #</div>#
