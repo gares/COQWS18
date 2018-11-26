@@ -230,6 +230,7 @@ You can write
 ----------------------------------------------------------
 #<div class="slide">#
 ** Example
+#<div>#
 *)
 Lemma goal_model_example (ci : Ti) (dj : Tj := ej) (Fk : Pk ci) :
   forall (xl : Tl), let ym := bm in Pn xl -> Conclusion ci dj ym xl.
@@ -243,7 +244,7 @@ move=> {pnxl}.
 move=> ci _.
 Abort.
 (**
-
+#</div>#
 #<p><br/><p>#
 #</div>#
 ----------------------------------------------------------
