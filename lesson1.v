@@ -196,7 +196,7 @@ Check true && false || false.
 #</div>#
 
 The [Infix] command lets one declare infix notations.
-Precendence and associativity is already declared in the
+Precedence and associativity is already declared in the
 prelude of Coq, here we just associate the constants
 [andb] and [orb] to these notataions.
 
@@ -422,10 +422,10 @@ We use this mecanism to talk about symbolic computation.
 #<div>#
 *)
 Section symbols.
-Variables x : nat.
+Variables v : nat.
 
-Eval lazy in pred x.+1 .
-Eval lazy in pred x .
+Eval lazy in pred v.+1 .
+Eval lazy in pred v .
 (**
 #</div>#
 
@@ -446,7 +446,7 @@ Fixpoint foldr A T f (a : A) (s : seq T) :=
 #</div>#
 
 The best way to understand what [foldr] does 
-is to postulate a virable [f] and compute. 
+is to postulate a variable [f] and compute. 
 
 #<div>#
 *)
