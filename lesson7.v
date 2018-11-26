@@ -386,17 +386,45 @@ Definition oddIn := [pred i | odd (i : 'I_n)].
 
 Check \big[addn/0]_(i in oddIn) f i.
 
-Goal \big[addn/0]_(i in oddIn) i = \big[addn/0]_(i : 'I_n | odd i) i.
+Goal \sum_(i in oddIn) i = \sum_(i < n | odd i) i.
+Proof.
 by [].
 Qed.
 
 Check \big[addn/0]_(0 <= i < n | odd i) g i.
 
-Goal \big[addn/0]_(0 <= i < n | odd i) g i = \big[addn/0]_(i < n | odd i) g i.
+Goal \sum_(0 <= i < n | odd i) g i = \sum_(i < n | odd i) g i.
+Proof.
 Check big_mkord.
 rewrite big_mkord.
 by [].
 Qed.
+
+Goal \sum_(i < n |odd i) i.*2 = \sum_(i < n|odd i) (i + i).
+Proof.
+Fail rewrite addnn.
+apply: eq_bigr.
+move=> i Hi.
+by rewrite addnn.
+Qed.
+
+Goal \sum_(i < n |odd i) i.*2 = \sum_(i < n|odd i) (i + i).
+Proof.
+Fail rewrite addnn.
+apply: eq_bigr.
+move=> i Hi.
+by rewrite addnn.
+Qed.
+
+Goal (\sum_(i < n|odd i) i).*2 = \sum_(i < n |odd i) i.*2.
+Proof.
+Check big_morph.
+apply: big_morph.
+  by move=> x y; rewrite doubleD.
+by[].
+Qed.
+
+End Primer.
 
 
 (**
