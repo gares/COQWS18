@@ -37,22 +37,109 @@ Example: the [==] computable equality
 
 #<div>#
 *)
-Check 3 == 4.
+
+
+(**
+#</div>#
+
+Polymorphism 
+
+#<div>#
+
+*)
+
+Check (_ = _).
+
+Check true = false.
+
+Check (@eq nat true false).
+
+(**
+#</div>#
+
+Overloading : looking inside types 
+
+#<div>#
+
+*)
+
+Check (_ == _).
+
 Check true == false.
+
+Check (@eq_op bool_eqType true false).
+
+Check 3 == 4.
+
 Check [::] == [:: 2; 3; 4].
 
-Eval lazy in 3 == 4.
+Section T.
+
+Variable T : eqType.
+Variable x : T.
+
+Eval lazy in x == x.
+
+End T.
+
+(**
+#</div>#
+
+Object oriented flavor
+
+#<div>#
+
+*)
+
 Eval lazy in true == false.
+
+Eval lazy in 3 == 4.
+
 Eval lazy in [::] == [:: 2; 3; 4].
 
 Check (3, true) == (4, false).
+
+Eval lazy in (3, true) == (4, false).
+
+(**
+#</div>#
+
+Overloading may fail, polymorphism never
+
+#<div>#
+
+*)
+
 Fail Check (fun x => x) == (fun y => y).
 
+Check (fun x => x) = (fun y => y).
+
+(**
+#</div>#
+
+Type inference
+
+#<div>#
+
+*)
+
+Check [eqType of bool].
+
+Fail Check [eqType of bool -> bool].
+
+Check [eqType of {ffun bool -> bool}].
+
 Check [eqType of nat].
+
 Fail Check [eqType of nat -> nat].
 
+Check [eqType of {ffun 'I_256 -> nat}].
+
 Check [eqType of seq nat].
+
 Fail Check [eqType of seq (nat -> nat)].
+
+Check [eqType of seq {ffun 'I_256 -> nat}].
 
 (**
 #</div>#
@@ -97,8 +184,11 @@ Let's use the theory of [eqType]
 
 #<div>#
 *)
+
 About eqxx.
+
 About eq_refl.
+
 Lemma test_eq (*(T : eqType) (x : T)*) :
   (3 == 3) && (true == true) (*&& (x == x)*).
 Proof.
@@ -107,6 +197,7 @@ rewrite eqxx.
 (* rewrite eqxx. *)
 by [].
 Qed.
+
 (**
 #</div>#
 
@@ -134,7 +225,9 @@ entire theory
 #<div>#
 *)
 Module Seq. Section Theory.
+
 Variable T : eqType.
+
 Implicit Type s : seq T.
 
 Fixpoint mem_seq s x :=
@@ -165,6 +258,37 @@ Lemma test : uniq (undup [::1;3;1;4]).
 Proof.
 by rewrite undup_uniq.
 Qed.
+
+(**
+#</div>#
+
+Others interfaces
+
+**)
+
+Section Interfaces.
+
+Variable chT : choiceType.
+
+Check (@sigW chT).
+
+Check [eqType of chT].
+
+Variable coT : countType.
+
+Check [countType of nat].
+Check [choiceType of coT].
+Check [choiceType of nat * nat].
+Check [choiceType of seq coT].
+
+Variable fT : finType.
+
+Check [finType of bool].
+Check [finType of 'I_10].
+Check [finType of {ffun 'I_10 -> fT}].
+Check [finType of bool * bool].
+
+End Interfaces.
 
 
 (**
@@ -200,6 +324,7 @@ Qed.
 
 About big_mkcond.
 About big_nat_recr.
+
 Lemma sum_odd_3_bis :
   \sum_(0 <= i < 6 | odd i) i = 3^2.
 Proof.
@@ -221,7 +346,59 @@ some others to be a commutative monoid.
 #<div>#
 *)
 
-About eq_big_perm.
+About bigD1.
+
+(**
+#</div>#
+
+Searching for bigop 
+
+#<div>#
+*)
+
+Lemma sum_odd_even_all n :
+  \sum_(0 <= i < n) i = 
+  \sum_(0 <= i < n | odd i) i + \sum_(0 <= i < n | ~~ odd i) i.
+Proof.
+Search _ (~~ _) in bigop.
+by rewrite (bigID odd).
+Qed.
+
+(**
+#</div>#
+
+Primer for bigop 
+
+#<div>#
+*)
+
+Section Primer.
+
+Variable n: nat.
+Variable f : 'I_n -> nat.
+Variable g : nat -> nat.
+
+Check \big[addn/0]_(i <- [::1; 4; 5] | odd i) g i.
+
+Check \big[addn/0]_(i : 'I_n | odd i) f i.
+
+Definition oddIn := [pred i | odd (i : 'I_n)].
+
+Check \big[addn/0]_(i in oddIn) f i.
+
+Goal \big[addn/0]_(i in oddIn) i = \big[addn/0]_(i : 'I_n | odd i) i.
+by [].
+Qed.
+
+Check \big[addn/0]_(0 <= i < n | odd i) g i.
+
+Goal \big[addn/0]_(0 <= i < n | odd i) g i = \big[addn/0]_(i < n | odd i) g i.
+Check big_mkord.
+rewrite big_mkord.
+by [].
+Qed.
+
+End Primer.
 
 (**
 #</div>#
