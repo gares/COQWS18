@@ -325,14 +325,19 @@ Exaustiveness of pattern matching:
 
 #<div>#
 *)
+
 Lemma helper x : S x = 0 -> False. Proof. by []. Qed.
+
 Fail Definition partial n : n = 0 -> False :=
   match n with
   | S x => fun p : S x = 0 => helper x p
 (*  | 0 => fun _ => I*)
   end.
+
 Fail Check partial 0 (erefl 0). (* : False *)
+
 Fail Compute partial 0 (erefl 0). (* = ??? : False *)
+
 (**
 #</div>#
 
@@ -343,9 +348,13 @@ Termination of recursion:
 
 #<div>#
 *)
+
 Fail Fixpoint oops (n : nat) : False := oops n.+1.
+
 Fail Check oops 3. (* : False *)
+
 Fail Compute oops 3. (* = ??? : False *)
+
 (**
 #</div>#
 
@@ -357,10 +366,15 @@ be hidden in a box.
 
 #<div>#
 *)
+
 Fail Inductive hidden := Hide (f : hidden -> False).
+
 Fail Definition oops (hf : hidden) : False := let: Hide f := hf in f hf.
+
 Fail Check oops (Hide oops). (* : False *)
+
 Fail Compute oops (Hide oops). (* = ??? : False *)
+
 (**
 #</div>#
 
@@ -383,6 +397,71 @@ section 3.2.3 of
 
 ----------------------------------------------------------
 #<div class="slide">#
+** Inductive types with indexes (casse-tête)
+
+... and their elimination.
+
+The intuition, operationally.
+
+Inductive types can express tricky invariants:
+
+#<div>#
+*)
+
+(* Translucent box, we know if it is empty or not without opening it *)
+Inductive tbox : bool -> Type :=
+  | Empty          : tbox false
+  | Full (n : nat) : tbox true.
+
+Check Empty.
+Check Full 3.
+
+Definition default (d : nat) (f : bool) (b : tbox f) : nat :=
+  match b with
+  | Empty => d
+  | Full x => x
+  end.
+
+(* Why this complication? *)
+Definition get (b : tbox true) : nat :=
+  match b with Full x => x end.
+
+(* What is elimination tricky? *)
+Lemma default_usage f (b : tbox f) : 0 <= default 3 b .
+Proof.
+case: b.
+Fail Check @default 3 f Empty.
+  by [].
+by [].
+Qed.
+
+(**
+#</div>#
+
+Take home:
+- the elimination of an inductive data type with indexes
+  expresses equations between the value of the indexes
+  in the type of the eliminated term and the value of the
+  indexes prescribed in the declatation of the inductive data
+- the implicit equations are substituted automatically at
+  elimination time
+- working with indexed data is hard, too hard :-/
+- we can still make good use of indexes when we define "spec" lemmas,
+  argument of the next lecture
+
+#<p><br/><p>#
+
+#<div class="note">(notes)<div class="note-text">#
+
+This slide corresponds to
+section 4.x of
+#<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
+#</div></div>#
+
+#</div>#
+
+----------------------------------------------------------
+#<div class="slide">#
 ** Lesson 4: sum up
 
 - In Coq terms/types play a double role:
@@ -392,7 +471,7 @@ section 3.2.3 of
   connectives
 - Pattern machind and recursion can model induction
 - The empty type is, well, empty, hence Coq is consistent
-- TODO: dependent elim
+- Inductives with indexes
 
 #</div>#
 
