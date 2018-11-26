@@ -271,6 +271,7 @@ Proof. move=> b1 b2; case: b1; case: b2. Restart.
 Proof. by case; case. Restart.
 Proof. by move=> [] []. Qed.
 (**
+#</div>#
 #<p><br/><p>#
 #</div>#
 ----------------------------------------------------------
