@@ -48,6 +48,7 @@ Objective: learn the Coq system in the MC library
   #<a href="https://math-comp.github.io/mcb/">book</a>#)
 
 
+#<p><br/><p>#
 
 #<div class="note">(notes)<div class="note-text">#
 You don't need to install Coq in order to follow this
