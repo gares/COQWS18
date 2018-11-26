@@ -546,7 +546,7 @@ section 1.6 of
 - [Definition]
 - [Print]
 - [Eval lazy]
-- [Indcutive] declarations [bool], [nat], [seq].
+- [Inductive] declarations [bool], [nat], [seq].
 - [match .. with .. end] and [if .. is .. then .. else ..]
 - [Fixpoint]
 - [andb] [orb] [eqn] [leq] [addn] [subn] [size] [foldr]
