@@ -53,8 +53,10 @@ Print zero_bis.
 We learn that 0 is a term of type nat, but Coq
 also accepts it as a proof of nat.
 
-In type theory: [p] is proof of [T] 
+#<div style='color: red; font-size: 150%;'>#
+In type theory: [p] is a proof of [T] 
 means that [p] inhabits the type [T].
+#</div>#
 
 Now let's look at the function space.
 
