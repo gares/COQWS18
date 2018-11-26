@@ -43,6 +43,9 @@ Proof.
 apply: 0.
 Qed.
 
+Print zero.
+Print zero_bis.
+
 
 (**
 #</div>#
@@ -63,7 +66,10 @@ Check nat -> nat  :  Type.
 Definition silly : nat -> nat := fun x => x.
 
 Lemma sillier : nat -> nat.
-Proof. move=> x. apply: x. Show Proof. Qed.
+Proof. move=> x. apply: x. Qed.
+
+Print silly.
+Print sillier.
 
 (**
 #</div>#
@@ -92,8 +98,8 @@ Check fun x : nat => p1.
 (**
 #</div>#
 
-We could build (introduce) an arrow/forall using [fun].
-Let's see how we can use (eliminate) an arrow/forall.
+We managed to build (introduce) an arrow and a forall using [fun].
+Let's see how we can use (eliminate) an arrow or a forall.
 
 #<div>#
 *)
@@ -119,22 +125,9 @@ term we obtain, that is [f a] has type [B a].
 In other words application instantiates universally
 quantified lemmas.
 
-Note: Any type can be put on the left of the arrow.
-
-#<div>#
-*)
-
-Check seq.
-Check (fun A : Type => seq A).
-
-Check (fun A : Type => @nil A).
-
-
-(**
-#</div>#
-
 So far we used [nat] (and [P]) as a predicate and [->] for implication.
-Q: Can use inductive types to model other predicates or connectives?
+
+Can we use inductive types to model other predicates or connectives?
 
 #<p><br/><p>#
 
@@ -152,9 +145,9 @@ section 4.x of
 #<div class="slide">#
 ** Predicates and connectives
 
-Let's start with #$$ \top $$# and #$$ \bottom $$#
+Let's start with #$$ \top $$#
 
-Here the label [Prop] could be a synonym of [Type].
+Note: here the label [Prop] could be a synonym of [Type].
 
 #<div>#
 *)
@@ -172,6 +165,14 @@ Proof.
 move=> t. case: t. apply: 3.
 Qed.
 
+(**
+#</div>#
+
+Now let's look at #$$ \bot $$#
+
+#<div>#
+*)
+
 Print False.
 
 Fail Definition hard1 : False := what.
@@ -187,21 +188,19 @@ Qed.
 (**
 #</div>#
 
-Connectives
+Connectives: #$$ \land $$# and #$$\lor $$#
 
 #<div>#
 *)
 
 Print and.
 
-Definition and_intro (A B : Prop) : A -> B -> and A B :=
-  fun a b => conj a b.
+Axiom A : Prop.
+Axiom B : Prop.
+Axiom a : A.
+Axiom b : B.
 
-Lemma and_intro2 (A B : Prop) : A -> B -> and A B.
-Proof.
-move=> a b.
-apply: conj a b.
-Qed.
+Check conj a b.
 
 Definition and_elim_left (A B : Prop) : and A B -> A :=
   fun ab => match ab with conj a b => a end.
@@ -212,6 +211,9 @@ Proof. case=> a b. apply: a. Qed.
 
 Print or.
 
+Check or_introl a : or A B.
+Check or_intror b : or A B.
+
 Definition or_elim (A B C : Prop) :
   A \/ B -> (A -> C) -> (B -> C) -> C :=
  fun aob a2c b2c =>
@@ -219,6 +221,14 @@ Definition or_elim (A B C : Prop) :
    | or_introl a => a2c a
    | or_intror b => b2c b
    end.
+
+(**
+#</div>#
+
+Quantifier #$$ \exists $$#
+
+#<div>#
+*)
 
 Print ex.
 
@@ -246,7 +256,11 @@ section 4.x of
 #<div class="slide">#
 ** Induction
 
+We want to prove theorems by induction, right?
+Hence there must be a term that corresponds to the induction principle.
+This term is a recursive function.
 
+Note: [Fixpoint] is just sugar for [Definition] followed by [fix].
 
 #<div>#
 *)
