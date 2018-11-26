@@ -11,9 +11,11 @@ Unset Printing Implicit Defensive.
 #<div class="slide">#
 ** Lesson 3: summary
 
-- proofs by backchaining
+- proofs by backchaining/backward reasoning
 - proofs by induction
-- stack model => :
+- stack model, tacticials [=>] and [:]
+- operations on the stack
+
 
 #<p><br/><p>#
 
@@ -23,15 +25,12 @@ Unset Printing Implicit Defensive.
 #<div class="slide">#
 ** Proofs by backward chaining
 
-We learn two tactics.
-- [move=> names] to introduce hypotheses in the context.
-- [apply: term] to do backward reasoning.
+- [move=> names] introduces hypotheses in the context.
+- [apply: term] does backward reasoning.
 
 #<div>#
 *)
-About dvdn_addr.
-Lemma example m p : prime p ->
-  p %| m `! + 1 -> m < p.
+Lemma example m p : prime p -> p %| m `! + 1 -> m < p.
 Proof.
 move=> prime_p.
 (* Search "contra". *)
@@ -47,11 +46,18 @@ Qed.
 (**
 #</div>#
 
-Remark [dvdn_addr] is an [iff] used inside a context.
+Remark [dvdn_addr] has a side condition.
 
-Remark [//] in [rewrite] to solve simple goals.
+Remark [rewrite] accepts
+- many rewrite rules,
+- the minus switch [-] to rewrite right to left,
+- [//] to solve simple goals,
+- [/=] to call the simplification heuristic,
+- [/name] to unfold definition [name],
+- [{x}] to clear [x] from the context.
 
-Remark [rewrite] acepts many rewrite rules.
+  cf #<a href="https://coq.inria.fr/refman/proof-engine/ssreflect-proof-language.html##rewriting">ssreflect documentation on rewrite</a>#
+
 
 Remark [n <= m <= p] is [n <= m && m <= p].
 
@@ -76,7 +82,8 @@ an induction hypothesis.
 *)
 Lemma addn0 m : m + 0 = m.
 Proof.
-elim: m => [ // |m IHm].
+elim: m => [|m IHm].
+  by [].
 by rewrite addSn IHm.
 Qed.
 (**
@@ -91,8 +98,12 @@ being proved before starting the induction.
 Lemma foldl_cat T R f (z0 : R) (s1 s2 : seq T) :
   foldl f z0 (s1 ++ s2) = foldl f (foldl f z0 s1) s2.
 Proof.
-elim: s1 z0 => [ // | x xs IH].
-move=> acc /=.
+move: z0.
+elim: s1.
+  by [].
+move=> x xs IH.
+move=> acc.
+rewrite /=.
 by rewrite IH.
 Qed.
 (**
@@ -110,7 +121,7 @@ section 2.3.4 of
 
 ----------------------------------------------------------
 #<div class="slide">#
-** Goal managament
+** Goal management
 
 - naming everything can become bothersome
 - but, we should not let the system give random names
@@ -136,10 +147,12 @@ Conclusion
 #<div>#
 *)
 Axiom (Ti Tj Tl : Type) (ej bm : Tj).
-Axiom (Pk : Ti -> Type) (Pn : Tl -> Type) (Conclusion : Type).
+Axiom (Pk : Ti -> Type) (Pn : Tl -> Type).
+Axiom (Conclusion : Ti -> Tj -> Tj -> Tl -> Type).
 
 Lemma goal_model_example (ci : Ti) (dj : Tj := ej) (Fk : Pk ci) :
-  forall (xl : Tl), let ym := bm in Pn xl -> Conclusion.
+  forall (xl : Tl), let ym := bm in Pn xl -> Conclusion ci dj ym xl.
+Abort.
 (**
 #</div>#
 
@@ -161,6 +174,9 @@ This slide corresponds to section
 
 #<div>#
 *)
+Lemma goal_model_example (ci : Ti) (dj : Tj := ej) (Fk : Pk ci) :
+  forall (xl : Tl), let ym := bm in Pn xl -> Conclusion ci dj ym xl.
+Proof.
 move=> xl ym pnxl.
 move: ci Fk.
 Abort.
@@ -175,39 +191,10 @@ Abort.
 
 ----------------------------------------------------------
 #<div class="slide">#
-** elim and case work on the top of the stack
-
-#<div>#
-[elim: x y z => [t u v | w] is the same as
-- [move: x y z.]
-- [elim.]
-- [move=> t u v.] in one branch, [move=> w] in another.
-#</div>#
-
-#<div>#
-*)
-Lemma foldl_cat' T R f (z0 : R) (s1 s2 : seq T) :
-  foldl f z0 (s1 ++ s2) = foldl f (foldl f z0 s1) s2.
-Proof.
-move: s1 z0.
-elim.
-  done.
-move=> x xs IH.
-move=> acc /=.
-by rewrite IH.
-Qed.
-(**
-#</div>#
-
-#<p><br/><p>#
-#</div>#
-
-----------------------------------------------------------
-#<div class="slide">#
 ** intro-pattern and discharge partterns
 
 You can write
-- [tactic=> i_item+] where i_item could be a name, [?], [_], [//], [/=], [//=], [->], ...
+- [tactic=> i_items] where i_item could be a name, or
   - [?] name chosen by the system, no user access,
   - [_] remove the top of the stack (if possible),
   - [//] close trivial subgoals,
@@ -216,11 +203,13 @@ You can write
   - [->] rewrite using the top of the stack, left to right,
   - [<-] same but right to left,
   - [{x}] clear name [x] from the context.
+  - [[[i_items|..|i_items]]] introductions on various sub-goals
+    when immediately [tactic] is [case] or [elim]
 
   cf #<a href="https://coq.inria.fr/refman/proof-engine/ssreflect-proof-language.html##introduction-in-the-context">ssreflect documentation on introduction to the context</a>#
 
-- [tactic: d_item+] where d_item could be a name or a term with holes (pattern), ...
-  - tactic must be [move], [case], [elim], [apply], [exact] or [congr],
+- [tactic: d_items] where d_item could be a name or a pattern, and
+  - [tactic] must be [move], [case], [elim], [apply], [exact] or [congr],
   - [move: name] clears the name from the context,
   - [move: pattern] generalize a subterm of the goal that match the pattern,
   - [move: (name)] forces [name] to be a pattern, hence not clearing it.
@@ -232,13 +221,83 @@ You can write
 
 ----------------------------------------------------------
 #<div class="slide">#
+** Example
+*)
+Lemma goal_model_example (ci : Ti) (dj : Tj := ej) (Fk : Pk ci) :
+  forall (xl : Tl), let ym := bm in Pn xl -> Conclusion ci dj ym xl.
+Proof.
+move=> xl /= pnxl.
+Fail move=> {xl}.
+Fail move=> {dj}.
+rewrite /dj {dj}.
+move: ci Fk.
+move=> {pnxl}.
+move=> ci _.
+Abort.
+(**
+
+#<p><br/><p>#
+#</div>#
+----------------------------------------------------------
+#<div class="slide">#
+** elim and case work on the top of the stack
+
+[elim: x y z => [[t u v | w]] ] is the same as
+- [move: x y z.]
+- [elim.]
+- [move=> t u v.] in one sub-goal, [move=> w.] in the other.
+
+#<div>#
+*)
+Lemma addnA m n p : m + (n + p) = (m + n) + p.
+Proof. by elim: m => // m IHm; rewrite !addSn IHm. Restart.
+Proof. by elim: m => // m; rewrite !addSn => ->. Qed.
+
+Lemma subnDA m n p : n - (m + p) = (n - m) - p.
+Proof. by move: m n; elim=> [//|m IHm]; case. Restart.
+Proof. by elim: m n => [|m IHm] []. Qed.
+
+Lemma andbC : commutative andb.
+Proof. move=> b1 b2; case: b1; case: b2. Restart.
+Proof. by case; case. Restart.
+Proof. by move=> [] []. Qed.
+(**
+#<p><br/><p>#
+#</div>#
+----------------------------------------------------------
+#<div class="slide">#
+** Example of [foldl_cat]
+
+#<div>#
+*)
+Lemma foldl_cat' T R f (z0 : R) (s1 s2 : seq T) :
+  foldl f z0 (s1 ++ s2) = foldl f (foldl f z0 s1) s2.
+Proof.
+move: s1 z0.
+elim.
+  done.
+move=> x xs IH.
+move=> acc.
+rewrite /=.
+by rewrite IH.
+
+Restart.
+
+Proof. by elim: s1 z0 => [//|x xs IH] acc /=; rewrite IH. Qed.
+(**
+
+#<p><br/><p>#
+#</div>#
+
+----------------------------------------------------------
+#<div class="slide">#
 ** Lesson 3: sum up
 
-- [apply: t] backward reasonning
-- [=>] is pop and [:] is push
+- [rewrite] takes many arguments
+- [apply: t] backward reasonning on the whole goal
+- [=>] is pop to context and [:] is push
+- [case] case analysis on the top of the stack
 - [elim] induction on the top of the stack
 
 #</div>#
-
-
 *)
