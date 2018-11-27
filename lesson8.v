@@ -11,7 +11,7 @@ Unset Printing Implicit Defensive.
 #<div class="slide">#
 ** Lesson 8: summary
 
-- interfaces and hierarchies
+- hierarchies (finite types)
 - subtypes
 
 Let's remember the truth:
@@ -23,6 +23,58 @@ programming language.
 
 
 #</div>#
+----------------------------------------------------------
+#<div class="slide">#
+** Sub types
+
+Let's see another interface, the one of finite types
+
+#<div>#
+*)
+
+Print Finite.class_of. (* we extend choice with a mix in *)
+
+Print Finite.mixin_of. (* we mix in countable and two specific
+                          fields: an enumeration and an axiom *)
+
+Print Finite.axiom.
+Print count_mem.
+
+Eval lazy in count_mem 3 [:: 1;2;3;4;3;2;1].
+
+(* The property of finite types is that *)
+
+Check fun (T : eqType) (enum : seq T) =>
+        forall x : T, count_mem x enum = 1.
+
+Section Example.
+Variable T : finType.
+
+Variable t : T.
+
+Check #| T |.
+
+Check [forall x : T, x == x] && false.
+Fail Check (forall x : T, x == x) && false.
+
+End Example.
+
+
+(**
+#</div>#
+
+
+#<div class="note">(notes)<div class="note-text">#
+This slide corresponds to
+section 6.1 and 6.2 of
+#<a href="https://math-comp.github.io/mcb/">the Mathematical Components book</a>#
+#</div></div>#
+
+#<p><br/><p>#
+#</div>#
+
+
+
 
 ----------------------------------------------------------
 #<div class="slide">#
@@ -81,6 +133,11 @@ Proof. rewrite size_tuple. rewrite size_tuple. by []. Qed.
 
 (**
 #</div>#
+
+Reamrk how [t] is a tuple, then it becomes a list by going
+trough rev and map, and is finally "promoted" back to a tuple
+by this [Canonical] magic.
+
 
 Now we the tuple type to form an eqType,
 exactly as seq does.
