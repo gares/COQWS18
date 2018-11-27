@@ -31,20 +31,46 @@ Proof.
 (*D*)by rewrite -muln2 -mulnDr addn2 mulnC.
 (*A*)Qed.
 
+
+(**
+   With the following lemmas we are going to mimic the proof of Gauss :
+
+       1 +     2 + .....        +  n.-2     + n.-1
+ +  n.-1 +  n.-2 +              +     2     +    1
+
+   = n.-1 * n
+**)
+
+
+(** *** Exercise 3:
+    - Prove this statement without induction.
+      Relevant lemma is big_nat_rev
+*)
+
 Lemma sum_gauss_rev n : \sum_(0 <= i < n) (n.-1 - i)  = \sum_(0 <= i < n) i.
 Proof.
 (*D*)rewrite [RHS]big_nat_rev /=.
 (*D*)by case: n => //.
 (*A*)Qed.
 
+(** *** Exercise 4 :
+    - Prove this statement without induction.
+      Relevant lemma is addnn
+*)
 Lemma sum_gauss_double n : (\sum_(0 <= i < n) i).*2  = 
        \sum_(0 <= i < n) i + \sum_(0 <= i < n) (n.-1 - i).
 Proof.
 (*D*)by rewrite sum_gauss_rev addnn.
 (*A*)Qed.
 
-Lemma sum_gaussD n :
-       \sum_(0 <= i < n) i + \sum_(0 <= i < n) (n.-1 - i) =
+
+(** *** Exercise 5:
+    - Prove this statement without induction.
+      Relevant lemma is big_split and eq_big_nat
+*)
+
+Lemma sum_gaussD n :       
+  \sum_(0 <= i < n) i + \sum_(0 <= i < n) (n.-1 - i) =
            \sum_(0 <= i < n) n.-1.
 Proof.
 (*D*)rewrite -big_split /=.
@@ -53,12 +79,24 @@ Proof.
 (*D*)by case: n Hi.
 (*A*)Qed.
 
+
+(** *** Exercise 6:
+    - Prove this statement without induction.
+      Relevant lemma is sum_nat_const_nat
+*)
+
 Lemma sum_gauss_const n k : \sum_(0 <= i < n) k = n * k.
 Proof.
 (*D*)by rewrite sum_nat_const_nat subn0.
 (*A*)Qed.
 
+
+(** *** Exercise 7 :
+    - Prove this statement using the previous theorem.
+*)
+
 Lemma sum_gauss_alt n : (\sum_(0 <= i < n) i).*2 = n * n.-1.
 Proof.
-by rewrite sum_gauss_double sum_gaussD sum_gauss_const.
-Qed.
+(*D*)by rewrite sum_gauss_double sum_gaussD sum_gauss_const.
+(*A*)Qed.
+
