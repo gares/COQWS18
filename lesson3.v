@@ -211,7 +211,7 @@ You can write
   - [->] rewrite using the top of the stack, left to right,
   - [<-] same but right to left,
   - [{x}] clear name [x] from the context.
-  - [[[i_items|..|i_items]]] introductions on various sub-goals
+  - [ [i_items|..|i_items] ] introductions on various sub-goals
     when immediately [tactic] is [case] or [elim]
 
   cf #<a href="https://coq.inria.fr/refman/proof-engine/ssreflect-proof-language.html##introduction-in-the-context">ssreflect documentation on introduction to the context</a>#
@@ -251,7 +251,7 @@ Abort.
 #<div class="slide">#
 ** elim and case work on the top of the stack
 
-[elim: x y z => [[t u v | w]] ] is the same as
+[elim: x y z => [t u v | w] ] is the same as
 - [move: x y z.]
 - [elim.]
 - [move=> t u v.] in one sub-goal, [move=> w.] in the other.
