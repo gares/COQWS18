@@ -5,7 +5,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-(** 
+(**
 
 ----------------------------------------------------------
 #<div class="slide">#
@@ -42,7 +42,7 @@ Example: the [==] computable equality
 (**
 #</div>#
 
-Polymorphism 
+Polymorphism
 
 #<div>#
 
@@ -57,7 +57,7 @@ Check (@eq nat true false).
 (**
 #</div>#
 
-Overloading : looking inside types 
+Overloading : looking inside types
 
 #<div>#
 
@@ -351,13 +351,13 @@ About bigD1.
 (**
 #</div>#
 
-Searching for bigop 
+Searching for bigop
 
 #<div>#
 *)
 
 Lemma sum_odd_even_all n :
-  \sum_(0 <= i < n) i = 
+  \sum_(0 <= i < n) i =
   \sum_(0 <= i < n | odd i) i + \sum_(0 <= i < n | ~~ odd i) i.
 Proof.
 Search _ (~~ _) in bigop.
@@ -367,7 +367,7 @@ Qed.
 (**
 #</div>#
 
-Primer for bigop 
+Primer for bigop
 
 #<div>#
 *)

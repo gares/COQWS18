@@ -51,3 +51,18 @@ Eval lazy in muln 3 4.
 *)
 Fixpoint muln_rec n m :=
 (*D*)if n is p.+1 then m + (muln_rec p m) else 0.
+
+(** *** Exercise :
+    - Use the the existing map function to define a functions that adds 2 to
+      all elements of a list of integers.
+    - Use the result of the previous exercise and the iter function to define
+      a function that maps the natural number n to the list containing the n first
+      odd numbers. (start with the empty list and then at each step, add 1 in front
+      and increase all other elements by 2).*)
+
+Definition add2list s :=
+(*D*)map (fun x => x.+2) s.
+
+Definition odds n :=
+(*D*)  iter n (fun s => 1 :: add2list s) [::].
+

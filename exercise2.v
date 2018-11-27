@@ -44,6 +44,7 @@ Goal forall p q r, (p || q) && r = r && (p || q).
 
 Goal forall n, n < n.+1.
 by [].
+Qed.
 
 (** *** Exercise 6  :
    - look up what [==>] 

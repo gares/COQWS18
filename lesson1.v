@@ -13,29 +13,42 @@ Objective: learn the Coq system in the MC library
 
 *** Roadmap
 
-- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson1.html">lesson 1</a>#: Programs
-  - #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise1.html">exercise</a># and #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise1-solution.html">solution</a>#
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson1.html">lesson 1</a>#: Functions and computations
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise1.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise1-solution.html">solution</a>-->#
 
-- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson2.html">lesson 2</a>#: Proofs
-  - #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise2.html">exercise</a># and #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise2-solution.html">solution</a>#
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson2.html">lesson 2</a>#: First steps in formal proofs
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise2.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise2-solution.html">solution</a>-->#
 
-- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson3.html">lesson 3</a>#: Boolean reflection
-  - #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise3.html">exercise</a># and #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise3-solution.html">solution</a>#
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson3.html">lesson 3</a>#: A few more steps in formal proofs
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise3.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise3-solution.html">solution</a>-->#
 
-- #<a href="https://www-sop.inria.fr/teams/marelle/types18/lesson4.html">lesson 4</a>#: Libraries
-  - #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise4.html">exercise</a># and #<a href="https://www-sop.inria.fr/teams/marelle/types18/exercise4-solution.html">solution</a>#
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson4.html">lesson 4</a>#: Type theory
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise4.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise4-solution.html">solution</a>-->#
+
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson5.html">lesson 5</a>#: Boolean reflection
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise5.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise5-solution.html">solution</a>-->#
+
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson6.html">lesson 6</a>#: Real proofs, finally!
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise6.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise6-solution.html">solution</a>-->#
+
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson7.html">lesson 7</a>#: Generic theories
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise7.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise7-solution.html">solution</a>-->#
+
+- #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/lesson8.html">lesson 8</a>#: Subtypes
+  - #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise8.html">exercise</a> <!-- and <a href="https://www-sop.inria.fr/teams/marelle/coq-18/exercise8-solution.html">solution</a>-->#
 
 *** Teaching material
 
 - Slides and exercises
-  #<a href="https://www-sop.inria.fr/teams/marelle/types18/">https://www-sop.inria.fr/teams/marelle/types18/</a>#
+  #<a href="https://www-sop.inria.fr/teams/marelle/coq-18/">https://www-sop.inria.fr/teams/marelle/coq-18/</a>#
 - Coq (#<a href="https://coq.inria.fr/download">software</a>#
-  and #<a href="https://coq.inria.fr/distrib/current/refman/">user manual</a>#)
+  and #<a href="https://coq.inria.fr/distrib/current/refman/">user manual</a>#, in particular the chapter about #<a href="https://coq.inria.fr/distrib/current/refman/proof-engine/ssreflect-proof-language.html">SSReflect</a>#)
 - Mathematical Components
   (#<a href="http://math-comp.github.io/math-comp/">software</a># and
   #<a href="https://math-comp.github.io/mcb/">book</a>#)
 
 
+#<p><br/><p>#
 
 #<div class="note">(notes)<div class="note-text">#
 You don't need to install Coq in order to follow this
@@ -196,7 +209,7 @@ Check true && false || false.
 #</div>#
 
 The [Infix] command lets one declare infix notations.
-Precendence and associativity is already declared in the
+Precedence and associativity is already declared in the
 prelude of Coq, here we just associate the constants
 [andb] and [orb] to these notataions.
 
@@ -422,10 +435,10 @@ We use this mecanism to talk about symbolic computation.
 #<div>#
 *)
 Section symbols.
-Variables x : nat.
+Variables v : nat.
 
-Eval lazy in pred x.+1 .
-Eval lazy in pred x .
+Eval lazy in pred v.+1 .
+Eval lazy in pred v .
 (**
 #</div>#
 
@@ -446,7 +459,7 @@ Fixpoint foldr A T f (a : A) (s : seq T) :=
 #</div>#
 
 The best way to understand what [foldr] does 
-is to postulate a virable [f] and compute. 
+is to postulate a variable [f] and compute. 
 
 #<div>#
 *)
@@ -533,7 +546,7 @@ section 1.6 of
 - [Definition]
 - [Print]
 - [Eval lazy]
-- [Indcutive] declarations [bool], [nat], [seq].
+- [Inductive] declarations [bool], [nat], [seq].
 - [match .. with .. end] and [if .. is .. then .. else ..]
 - [Fixpoint]
 - [andb] [orb] [eqn] [leq] [addn] [subn] [size] [foldr]

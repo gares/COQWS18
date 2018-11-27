@@ -15,7 +15,6 @@ Unset Printing Implicit Defensive.
 - proofs by computation
 - proofs by case split
 - proofs by rewriting
-- TODO: have?
 
 #<p><br/><p>#
 
