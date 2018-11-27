@@ -50,7 +50,6 @@ Lemma xor1 P Q : (xor P Q) -> not Q -> P.
 Proof.
 (*D*)case=> [p _| np q] nq.
 (*D*)  by apply: p.
-(*D*)Check (nq q).
 (*D*)case: (nq q).
 Qed.
 
@@ -80,9 +79,26 @@ Definition induction_seq A (P : seq A -> Prop) :
   P nil -> (forall a l, P l -> P (a :: l)) -> forall l, P l :=
 (*D*) fun pn pc =>
 (*D*)    fix IH l : P l :=
-(*D*)       match l with nil => pn | cons a l1 => pc a l1 (IH l1) end.
+(*D*)       match l with nil => pn | cons a l1 => pc a l1 (IH l1) end
+.
+
 
 (** *** Exercise 6:
+    - remeber [=> /view] to prove the following lemma
+    - the two relevant views are [prime_gt1] and [dvdn_leq]
+    - Note: [=> /view] combines well with [->] (lesson 3)
+    - Hint: the proof can be a one liner [by move=> ....]
+    - Recall: the notation "_ < _ <= _" hides a conjunction
+*)
+About prime_gt1.
+About dvdn_leq.
+
+Lemma ex_view p : prime p -> p %| 7 -> 1 < p <= 7.
+Proof.
+(*D*)by move=> /prime_gt1 -> /dvdn_leq ->.
+Qed.
+
+(** *** Exercise 7:
     - Define the indexed data type of Cherry tree:
       + the index is a bool and must be truee iff the tree is completely
         flourished
@@ -97,3 +113,5 @@ Inductive cherryt : bool -> Type :=
 Check Node _ Flower Flower : cherryt true.
 Check Node _ Bud Bud       : cherryt false.
 Fail Check Node _ Flower Bud.
+
+

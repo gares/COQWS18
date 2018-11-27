@@ -87,8 +87,10 @@ The function space of type theory is *dependent*.
 #<div>#
 *)
 
-Axiom P : nat -> Type.
-Axiom p1 : P 1.
+Section DependentFunction.
+
+Variable P : nat -> Type.
+Variable p1 : P 1.
 
 
 Check forall x, P x.
@@ -109,10 +111,12 @@ Let's see how we can use (eliminate) an arrow or a forall.
 Check factorial.
 Check factorial 2.
 
-Axiom px1 : forall x, P x.+1.
+Variable px1 : forall x, P x.+1.
 
 Check px1.
 Check px1 3.
+
+End DependentFunction.
 
 (**
 #</div>#
@@ -125,7 +129,28 @@ then the argument [a] appears in the type of
 term we obtain, that is [f a] has type [B a].
 
 In other words application instantiates universally
-quantified lemmas.
+quantified lemmas and implements modus ponens.
+
+Lemmas can be seen as views to transform assumptions.
+
+#<div>#
+*)
+
+Section Views.
+
+Variable P : nat -> Type.
+Variable Q : nat -> Type.
+Variable p2q : forall x, P x -> Q x.
+
+Goal P 3 -> True.
+Proof.
+move=> (*/p2q*) p3.
+Abort.
+
+End Views.
+
+(**
+#</div>#
 
 So far we used [nat] (and [P]) as a predicate and [->] for implication.
 
@@ -195,34 +220,44 @@ Connectives: #$$ \land $$# and #$$\lor $$#
 #<div>#
 *)
 
+Section Connectives.
+
 Print and.
 
-Axiom A : Prop.
-Axiom B : Prop.
-Axiom a : A.
-Axiom b : B.
+Variable A : Prop.
+Variable B : Prop.
+Variable C : Prop.
+
+Variable a : A.
+Variable b : B.
 
 Check conj a b.
 
-Definition and_elim_left (A B : Prop) : and A B -> A :=
+Definition and_elim_left : and A B -> A :=
   fun ab => match ab with conj a b => a end.
 
 
-Lemma and_elim_left2 (A B : Prop) : and A B -> A.
-Proof. case=> a b. apply: a. Qed.
+Lemma and_elim_left2 : and A B -> A.
+Proof. case=> l r. apply: l. Qed.
 
 Print or.
 
 Check or_introl a : or A B.
 Check or_intror b : or A B.
 
-Definition or_elim (A B C : Prop) :
+Definition or_elim :
   A \/ B -> (A -> C) -> (B -> C) -> C :=
  fun aob a2c b2c =>
    match aob with
    | or_introl a => a2c a
    | or_intror b => b2c b
    end.
+
+Lemma or_elim_example : A \/ B -> C.
+Proof.
+move=> aob.
+case: aob.
+Abort.
 
 (**
 #</div>#
@@ -234,11 +269,12 @@ Quantifier #$$ \exists $$#
 
 Print ex.
 
-Lemma ex_elim A P : (exists x : A, P x) -> True.
+Lemma ex_elim P : (exists x : A, P x) -> True.
 Proof.
 case => x px.
 Abort.
 
+End Connectives.
 
 (**
 #</div>#
@@ -371,7 +407,8 @@ be hidden in a box.
 
 Fail Inductive hidden := Hide (f : hidden -> False).
 
-Fail Definition oops (hf : hidden) : False := let: Hide f := hf in f hf.
+Fail Definition oops (hf : hidden) : False :=
+  match hf with Hide f => f hf end.
 
 Fail Check oops (Hide oops). (* : False *)
 
@@ -424,11 +461,11 @@ Definition default (d : nat) (f : bool) (b : tbox f) : nat :=
   | Full x => x
   end.
 
-(* Why this complication? *)
+(* Why this complication? (believe me, not worth it) *)
 Definition get (b : tbox true) : nat :=
   match b with Full x => x end.
 
-(* What is elimination tricky? *)
+(* the meat: why is the elimination tricky? *)
 Lemma default_usage f (b : tbox f) : 0 <= default 3 b .
 Proof.
 case: b.
