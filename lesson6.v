@@ -10,11 +10,10 @@ Unset Printing Implicit Defensive.
 #<div class="slide">#
 ** Lesson 6: Summary
 
-- [have] and [suff] proof cuts, intermediate lemmas,
-- [wlog] without loss of generality,
+- [have], [suff], [wlog] proof cuts, alternative to intermediate lemmas.
 - [set] and [pose] abstracting sub terms,
 - [-[pattern]/expression] substitutes an expression for a convertible one,
-- Good practices for practical proofs.
+- Good practices for real proofs.
 
 #</div>#
 
@@ -22,12 +21,14 @@ Unset Printing Implicit Defensive.
 #<div class="slide">#
 ** [have:] and [suff:]
 
-- [have i_items : statement.] asks you to prove [statement] as its first subgoal.
-- [suff i_items : statement.] asks you to prove [statement] as its first subgoal.
+- [have i_items : statement.] asks you to prove [statement] first.
+- [suff i_items : statement.] asks you to prove [statement] first.
 - [have i_items := term.] genralizes [term] and puts in on the top of the stack.
 
 This last one is very useful as an alternative of [Check], since you can play with
 the result which is on the top of the stack.
+
+cf #<a href="https://coq.inria.fr/refman/proof-engine/ssreflect-proof-language.html?highlight=stack##the-have-tactic">ssreflect documentation on rewrite</a>#
 
 #<div>#
 *)
@@ -193,11 +194,16 @@ Abort.
 
 ----------------------------------------------------------
 #<div class="slide">#
-** Good practices for practical proofs.
+** Good practices for real proofs.
 
 - Never unfold a definition from a library, unless you really mean it.
-  (Unfolding will happen mostly for the symbols *you* defined)
--
+  (Unfolding will happen mostly for the symbols YOU defined)
+- Take piece of paper and sketch the proof with a pen,
+  do NOT let the proof assitant
+  guide you, only let it assist you.
+- Take a look at the header of the library you want to use, to know the concepts.
+- Use [Search _ symbol1 symbol2] to lookup the lemmas about these concepts.
+- Read the name conventions and use them in your own proofs and searches.
 
 #</div>#
 
