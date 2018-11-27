@@ -223,7 +223,7 @@ Do NOT use [eq_suml_odds] above, it would take much more time
 *)
 Lemma sum_odds n : \mysum_(0 <= i < n) (2 * i + 1) = n ^ 2.
 Proof.
-(*D*)elim: n => //= n IHn; rewrite mysum_recl// IHn.
+(*D*)elim: n => // n IHn; rewrite mysum_recl// IHn.
 (*D*)by rewrite -[n.+1]addn1 sqrnD muln1 addnAC addnA.
 (*A*)Qed.
 (**
