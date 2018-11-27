@@ -5,7 +5,7 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
-(**
+(** 
 
 ----------------------------------------------------------
 #<div class="slide">#
@@ -42,7 +42,7 @@ Example: the [==] computable equality
 (**
 #</div>#
 
-Polymorphism
+Polymorphism 
 
 #<div>#
 
@@ -52,12 +52,19 @@ Check (_ = _).
 
 Check true = false.
 
+Check (eq true false).
+
+Check @eq.
+
+Check (@eq _ true false).
+
 Check (@eq nat true false).
+
 
 (**
 #</div>#
 
-Overloading : looking inside types
+Overloading : looking inside types 
 
 #<div>#
 
@@ -66,6 +73,8 @@ Overloading : looking inside types
 Check (_ == _).
 
 Check true == false.
+
+Check (@eq_op _ true false).
 
 Check (@eq_op bool_eqType true false).
 
@@ -351,13 +360,13 @@ About bigD1.
 (**
 #</div>#
 
-Searching for bigop
+Searching for bigop 
 
 #<div>#
 *)
 
 Lemma sum_odd_even_all n :
-  \sum_(0 <= i < n) i =
+  \sum_(0 <= i < n) i = 
   \sum_(0 <= i < n | odd i) i + \sum_(0 <= i < n | ~~ odd i) i.
 Proof.
 Search _ (~~ _) in bigop.
@@ -367,7 +376,7 @@ Qed.
 (**
 #</div>#
 
-Primer for bigop
+Primer for bigop 
 
 #<div>#
 *)
@@ -400,28 +409,31 @@ rewrite big_mkord.
 by [].
 Qed.
 
-Goal \sum_(i < n |odd i) i.*2 = \sum_(i < n|odd i) (i + i).
+Goal \sum_(0 <= i < n |odd i) i.*2 = \sum_(0 <= i < n|odd i) (i + i).
 Proof.
 Fail rewrite addnn.
+About eq_bigr.
 apply: eq_bigr.
 move=> i Hi.
 by rewrite addnn.
 Qed.
 
-Goal \sum_(i < n |odd i) i.*2 = \sum_(i < n|odd i) (i + i).
+Goal \sum_(0 <= i < n |odd i) i.*2 = \sum_(0 <= i < n | odd i) (i + i).
 Proof.
-Fail rewrite addnn.
-apply: eq_bigr.
+About eq_bigr.
+rewrite (eq_bigr (fun i => i + i)) //.
 move=> i Hi.
 by rewrite addnn.
 Qed.
 
 Goal (\sum_(i < n|odd i) i).*2 = \sum_(i < n |odd i) i.*2.
 Proof.
-Check big_morph.
-apply: big_morph.
-  by move=> x y; rewrite doubleD.
-by[].
+About  big_morph.
+Fail rewrite big_morph.
+rewrite (big_morph _ (_ : {morph double : x y / x + y}) (_ : 0.*2 = 0)).
+- by [].
+- move=> x y; exact: doubleD.
+by [].
 Qed.
 
 End Primer.
