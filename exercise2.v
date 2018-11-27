@@ -54,13 +54,9 @@ Qed.
 Lemma implybE p q : p ==> q = ~~ p || q.
 (*D*) Proof. by case: p. Qed.
 
-
-(** *** 
+(** *** Exercise 7  :
     Try to prove using the case tactic and alternatively
     without using the case tactic
-*)
-
-(** *** Exercise 7  :
 *)
 
 Lemma negb_imply p q : ~~ (p ==> q) = p && ~~ q.
@@ -69,6 +65,8 @@ Lemma negb_imply p q : ~~ (p ==> q) = p && ~~ q.
 
 
 (** *** Exercise 8  :
+    Try to prove using the case tactic and alternatively
+    without using the case tactic
 *)
 Lemma Peirce p q : ((p ==> q) ==> p) ==> p.
 (*D*) (* Proof. by case: p; case: q. Qed. *)
