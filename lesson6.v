@@ -127,19 +127,11 @@ Qed.
 ** [-[pattern]/term] lets you replace a term by a convertible one.
 
 e.g.
-- [-[m]/(0 * d + m)] replaces [m] by [0 * d + m],
--
+- [-[2]/(1 + 1)] replaces [2] by [1 + 1],
+- [-[2 ^ 2]/4] replaces [2 ^ 2] by [4],
+- [-[m]/(0 * d + m)] replaces [m] by [0 * d + m].
 
-#<div>#
-*)
-(**
-#</div>#
-
-#</div>#
-
-----------------------------------------------------------
-#<div class="slide">#
-** Euclidean division, simple and correct
+Example: Euclidean division, simple and correct
 
 #<div>#
 *)
@@ -205,6 +197,15 @@ Abort.
 - Use [Search _ symbol1 symbol2] to lookup the lemmas about these concepts.
 - Read the name conventions and use them in your own proofs and searches.
 
+#</div>#
+
+----------------------------------------------------------
+#<div class="slide">#
+** A little tour of the [div] library
+
+If time allows:
+- [dvdn], [modn], [divn], [m = n %[mod d]] ...
+- juggling with specificies of division by 2.
 #</div>#
 
 *)
