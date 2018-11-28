@@ -48,7 +48,8 @@ Proof.
 (** #</div>#
 - Now prove a little lemma that will guarantee that a and b are even.
 
-  - Hint: [About divn_eq] and [Search _ modn odd]
+  - Hint 1: first prove [(x * 2 + y) ^ 2 = y ^ 2 %[mod 4]].
+  - Hint 2: [About divn_eq] and [Search _ modn odd]
 #<div># *)
 Lemma mod4Dsqr_even a b : (a ^ 2 + b ^ 2) %% 4 = 0 -> (~~ odd a) && (~~ odd b).
 Proof.
@@ -144,5 +145,23 @@ Proof.
 (*D*)rewrite subnS subn0 prednK ?addn_gt0 ?expn_gt0 ?b_gt0 ?orbT//.
 (*D*)rewrite -[X in _ + X]mul1n -mulnDl addn1 expnS.
 (*D*)by rewrite leq_mul2r r_lt orbT.
+(*A*)Qed.
+(** #</div>#
+*** Exercise 5:
+
+Prove that the natural number interval #$$[n!+2\ ,\ n!+n]$$#
+contains no prime number.
+
+- Hint: Use [Search _ prime dvdn], [Search _ factorial], ...
+
+#<div># *)
+Lemma ex5 n m : n`! + 2 <= m <= n`! + n -> ~~ prime m.
+Proof.
+(*D*)move=> m_in; move: (m_in); rewrite -[m](@subnKC n`!); last first.
+(*D*)  by rewrite (@leq_trans (n`! + 2)) ?leq_addr//; by case/andP: m_in.
+(*D*)set k := (_ - _); rewrite !leq_add2l => /andP[k_gt1 k_le_n].
+(*D*)apply/primePn; right; exists k.
+(*D*)  by rewrite k_gt1/= -subn_gt0 addnK fact_gt0.
+(*D*)by rewrite dvdn_add// dvdn_fact// k_le_n (leq_trans _ k_gt1).
 (*A*)Qed.
 (** #</div># *)
