@@ -2,11 +2,11 @@ From mathcomp Require Import all_ssreflect.
 
 
 (** *** Exercise 1 :
-    - Prove this statement by induction or
+    - Prove this statement by induction  using big_nat_recr and big_geq
     - alternatively by using big_morph
 *)
 
-Lemma sum_mull f (k n : nat) : 
+Lemma sum_mull f (k n : nat) :
   k * (\sum_(0 <= i < n) f i) = \sum_(0 <= i < n) (k * f i).
 Proof.
 (*D*)(* elim: n => [|n IH]; first by rewrite !big_geq. *)
@@ -18,7 +18,7 @@ Qed.
     - Prove this statement by using big_morph
 *)
 
-Lemma sum_mulr f (k n : nat) : 
+Lemma sum_mulr f (k n : nat) :
   (\sum_(0 <= i < n) f i) * k = \sum_(0 <= i < n) (f i * k).
 Proof.
 (*D*)(* elim: n => [|n IH]; first by rewrite !big_geq. *)
@@ -86,7 +86,7 @@ Qed.
     - Prove this statement without induction.
     - Relevant lemma is addnn
 *)
-Lemma sum_gauss_double n : (\sum_(0 <= i < n) i).*2  = 
+Lemma sum_gauss_double n : (\sum_(0 <= i < n) i).*2  =
        \sum_(0 <= i < n) i + \sum_(0 <= i < n) (n.-1 - i).
 Proof.
 (*D*)by rewrite sum_gauss_rev addnn.
@@ -98,7 +98,7 @@ Qed.
     - Relevant lemma are big_split and eq_big_nat
 *)
 
-Lemma sum_gaussD n :       
+Lemma sum_gaussD n :
   \sum_(0 <= i < n) i + \sum_(0 <= i < n) (n.-1 - i) =
            \sum_(0 <= i < n) n.-1.
 Proof.
@@ -136,18 +136,18 @@ Qed.
 
 Lemma sum_gauss_alt2 n : (\sum_(0 <= i < n) i).*2 = n * n.-1.
 Proof.
-(*D*)rewrite -addnn [X in X + _ = _]big_nat_rev -big_split /=. 
+(*D*)rewrite -addnn [X in X + _ = _]big_nat_rev -big_split /=.
 (*D*)rewrite -[X in _ = X * _]subn0 -sum_nat_const_nat.
 (*D*)apply: eq_big_nat => i.
 (*D*)by case: n => // n /andP[iP iLn]; rewrite [_ + _]subnK.
 Qed.
 
 
-(** ***  Now we try to prove the sum of squares. 
+(** ***  Now we try to prove the sum of squares.
 
 **)
 
-(** ***  We first define the property for a function to be increasing 
+(** ***  We first define the property for a function to be increasing
 **)
 
 
@@ -159,17 +159,17 @@ Definition fincr f := forall n, f n <= f n.+1.
 
 Lemma fincrD f m n : fincr f -> f m <= f (n + m).
 Proof.
-(*D*)move=> Hf; elim: n => // n H; exact: leq_trans H (Hf _). 
+(*D*)move=> Hf; elim: n => // n H; exact: leq_trans H (Hf _).
 Qed.
 
 
 (** *** Exercise 12 :
-    - Prove this statement using exercise 9
+    - Prove this statement using exercise 11
     - Hint : subnK
 *)
 
 Lemma fincr_leq f m n : fincr f -> m <= n -> f m <= f n.
-Proof. 
+Proof.
 (*D*)by move=> Hf Hn; rewrite -(subnK Hn) fincrD.
 Qed.
 
@@ -179,7 +179,7 @@ Qed.
         - Hints : addnCA subnK fincr_leq big_geq
 *)
 
-Lemma sum_consecutive n f :  
+Lemma sum_consecutive n f :
   fincr f -> f n = \sum_(0 <= i < n) (f i.+1 - f i) + f 0.
 Proof.
 (*D*)move=> Hf.
@@ -192,7 +192,7 @@ Qed.
         - Proof using the previous lemma
         - Hints : leq_exp2r
 *)
-Lemma sum_consecutive_cube n :  
+Lemma sum_consecutive_cube n :
   n^3 = \sum_(0 <= i < n) (i.+1 ^ 3 - i ^ 3).
 Proof.
 (*D*)rewrite (sum_consecutive _ (fun i => i ^ 3)) ?addn0 //.
@@ -200,11 +200,11 @@ Proof.
 Qed.
 
 
-(** *** We give the proof of a technical result 
+(** *** We give the proof of a technical result
 *)
 
 Ltac sring :=
-  rewrite !(expn1, expnS, =^~mul2n, mulSn, mulnS, addnS, addSn, 
+  rewrite !(expn1, expnS, =^~mul2n, mulSn, mulnS, addnS, addSn,
           mulnDr, mulnDl, add0n, addn0, muln0, addnA, mulnA);
   do ! congr (S _);
   do ! ((congr (_ + _); [idtac]) ||  (rewrite [in LHS]addnC ?[in LHS]addnA //)).
@@ -213,9 +213,9 @@ Lemma succ_cube n : n.+1 ^ 3 = n ^ 3  + (3 * n ^ 2 + 3 * n + 1).
 Proof. sring. Qed.
 
 (** *** Exercise 15 :
-        - Hints : big_split sum_mll sum_gauss sum_gauss_const
+        - Hints : big_split sum_mull sum_gauss sum_gauss_const
 *)
-Lemma sum_sum3 n : 
+Lemma sum_sum3 n :
   \sum_(0 <= i < n) (6 * i ^ 2 + 6 * i + 2) =
    6 * (\sum_(0 <= i < n)  i ^ 2) + 3 * n * n.-1 + n.*2.
 Proof.
@@ -226,9 +226,9 @@ Qed.
 
 
 (** *** Exercise 16 :
-        - Hints : big_split sum_mll sum_gauss sum_gauss_const
+        - Hints : big_split sum_mull sum_gauss sum_gauss_const
 *)
-Lemma sum_sum4 n : 
+Lemma sum_sum4 n :
  (n ^ 3).*2 = 6 * (\sum_(0 <= i < n)  i ^ 2) + 3 * n * n.-1 + n.*2.
 Proof.
 (*D*)rewrite sum_consecutive_cube -sum_sum3 -mul2n sum_mull.
