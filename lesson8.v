@@ -11,8 +11,8 @@ Unset Printing Implicit Defensive.
 #<div class="slide">#
 ** Lesson 8: summary
 
-- hierarchies (finite types)
-- subtypes
+- OOP with mix-ins
+- subtypes & automation
 
 Let's remember the truth:
 
@@ -25,7 +25,9 @@ programming language.
 #</div>#
 ----------------------------------------------------------
 #<div class="slide">#
-** Sub types
+** OOP
+
+# <img style="width: 100%" src="demo-support-master.png"/>#
 
 Let's see another interface, the one of finite types
 
@@ -48,12 +50,13 @@ Check fun (T : eqType) (enum : seq T) =>
         forall x : T, count_mem x enum = 1.
 
 Section Example.
+
 Variable T : finType.
 
-Variable t : T.
-
+(* Cardinality of a finite type *)
 Check #| T |.
 
+(* "bounded" quantification *)
 Check [forall x : T, x == x] && false.
 Fail Check (forall x : T, x == x) && false.
 
@@ -91,7 +94,7 @@ Let's define the type of homogeneous tuples
 
 Module Tup.
 
-Structure tuple_of n T := Tuple {
+Record tuple_of n T := Tuple {
   tval  :> seq T;
   tsize :  size tval == n
 }.
@@ -100,7 +103,7 @@ Notation "n .-tuple" := (tuple_of n) : type_scope.
 Lemma size_tuple T n (t : n .-tuple T) : size t = n.
 Proof. by case: t => s /= /eqP. Qed.
 
-Example seq_on_tuple n (t : n .-tuple nat) :
+Example seq_on_tuple (n : nat) (t : n .-tuple nat) :
   size (rev [seq 2 * x | x <- rev t]) = size t.
 Proof. 
 by rewrite map_rev revK size_map.
@@ -189,6 +192,20 @@ Proof.
 move=> /eqP H.
 Abort.
 
+End Tup.
+
+(**
+#<div/>#
+
+Tuples is are part of the library, that also contains
+many other "promotions"
+
+#<div>#
+*)
+
+Check [finType of 3.-tuple bool].
+Fail Check [finType of 3.-tuple nat].
+
 (**
 #<div/>#
 
@@ -198,11 +215,46 @@ numbers smaller than n.
 
 #<div>#
 *)
+
 Print ordinal.
+Check [eqType of 'I_3].
+Check [finType of 'I_3].
 
 About tnth. (* like the safe nth function for vectors *)
 
-End Tup.
+(**
+#<div/>#
+
+It is easy to combine these bricks by subtyping (and "specialization")
+
+#<div>#
+*)
+
+Check {set 'I_4} : Type.
+Check forall a : {set 'I_4}, (a == set0) || (1 < #| a | < 4).
+Print set_type.
+Check {ffun 'I_4 -> bool} : Type.
+Print finfun_type.
+Check [eqType of #| 'I_4 | .-tuple bool].
+Check [finType of #| 'I_4 | .-tuple bool].
+
+Check {ffun 'I_4 * 'I_6 -> nat} : Type.
+Check [eqType of {ffun 'I_4 * 'I_6 -> nat}] : Type.
+
+From mathcomp Require Import all_algebra.
+Open Scope ring_scope.
+
+Print matrix.
+
+Section Rings.
+
+Variable R : ringType.
+
+Check forall x : R, x * 1 == x.
+
+Check forall m : 'M[R]_(4,4), m == m * m.
+
+End Rings.
 
 (**
 #</div>#
