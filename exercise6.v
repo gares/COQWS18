@@ -31,20 +31,17 @@ Definition sol n a b := [&& a > 0, b > 0 & 2 ^ n == a ^ 2 + b ^ 2].
 (** #</div>#
 - First prove that there are no solutions when n is 0.
 
-  - Hint: Lookup [ltnP], [ltn_eqF], [leq_add] and [Search _ "_gt0".]
+  - Hint: do enough cases on a and b.
 #<div># *)
 Lemma sol0 a b : ~~ sol 0 a b.
-Proof.
-(*D*)rewrite /sol; have [a_gt0/=|//] := ltnP; have [b_gt0/=|//] := ltnP.
-(*D*)by rewrite ltn_eqF// (@leq_add 1 1) ?expn_gt0 ?a_gt0 ?b_gt0.
-(*A*)Qed.
+(*A*)Proof. by move: a b => [|[|[|a]]] [|[|[|b]]]. Qed.
 (** #</div>#
 - Now prove the only solution when n is 1.
+
+  - Hint: do enough cases on a and b.
 #<div># *)
 Lemma sol1 a b : sol 1 a b = (a == 1) && (b == 1).
-Proof.
-(*D*)by case : a b => [|[|a]] [|[|b]]//; rewrite /sol ltn_eqF// (@leq_add 2 1).
-(*A*)Qed.
+(*A*)Proof. by move: a b => [|[|[|a]]] [|[|[|b]]]. Qed.
 (** #</div>#
 - Now prove a little lemma that will guarantee that a and b are even.
 
@@ -119,7 +116,7 @@ Proof.
 (*D*)apply/idP/idP => [Hn|]; rewrite !inE; last first.
 (*D*)  by move=> /or4P[] /eqP->.
 (*D*)have : n + 4 %| 3 * n + 32 - 3 * (n + 4) by rewrite dvdn_sub// dvdn_mull.
-(*D*)by rewrite mulnDr subnDl /= {Hn}; do 21?[case: n => // n].
+(*D*)by rewrite mulnDr subnDl /= {Hn}; move: n; do 21?[case=>//].
 (*A*)Qed.
 (** #</div>#
 *** Exercise 4:
