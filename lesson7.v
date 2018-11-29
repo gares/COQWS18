@@ -58,7 +58,7 @@ Check @eq.
 
 Check (@eq _ true false).
 
-Check (@eq nat true false).
+Check (@eq bool true false).
 
 
 (**
